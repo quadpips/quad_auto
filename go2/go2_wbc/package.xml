@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>go2_wbc</name>
+  <version>0.1.0</version>
+  <description>The common classes and functions for legged control, estimation, and dynamics modeling</description>
+
+  <maintainer email="mass@gatech.edu">Max Asselmeier</maintainer>
+  <license>BSD</license>
+
+  <!-- Build tool -->
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <!-- Dependencies -->
+
+  <build_depend>legged_utils</build_depend>
+  <exec_depend>legged_utils</exec_depend>
+
+  <build_depend>qpoases</build_depend>
+  <exec_depend>qpoases</exec_depend>
+
+  <build_depend>ocs2_go2_models</build_depend>
+  <exec_depend>ocs2_go2_models</exec_depend>
+
+  <build_depend>ocs2_go2_mpc</build_depend>
+  <exec_depend>ocs2_go2_mpc</exec_depend>
+
+  <build_depend>rclcpp</build_depend>
+  <exec_depend>rclcpp</exec_depend>
+
+  <export>                               
+   <build_type>ament_cmake</build_type>
+  </export>
+</package>

@@ -1,0 +1,69 @@
+torso_path_planner
+{
+    delta                                   0.25; discretization factor for search (X/Y/Z)
+    local_search_radius                     1.25;
+}
+
+graph_construction
+{
+    max_leg_swing_distance                  0.25;   Max distance traveled from lift off to touch down for swing leg
+
+    ideal_stance_width                      0.25;   Ideal stance width (TODO: capture doing initialization)
+    ideal_stance_length                     0.35;   Ideal stance length (TODO: capture doing initialization)
+
+    local_goal_region_tolerance             0.25;   Distance around local goal position to consider search done
+    global_goal_region_tolerance            0.30;   Ditance around global goal position to consider planning done
+}
+
+graph_weights
+{
+    w_exp          0.0; Weight for experience term on edges in graph search (normal step: 2.5-7.5, max: 250 - 500 )
+    w_euc          1.0; Weight for euclidean distance term on edges in graph search (depends on env size min: ~0.10, max: max env dimension, 4-5)
+    w_stance       0.0; Weight for stance deviation term on edges in graph search (min: ~0.05, mean: 0.5 - 1.5, max:  ~3.5)
+    w_torso        0.0; Weight for torso path deviation term on edges in graph search (depends on env size min: ~0.10, max: max env dimension, 4-5)
+    w_step         0.0; Weight for steppability term on edges in graph search (1 / 5 / 100 / 1000)
+}
+
+trials
+{
+    search_algorithm   1; 0 - Dijkstra's, 1 - A*
+}
+
+tracking
+{
+    t_ahead                      0.25;   Time that you add to reference trajectory to account for receiver delay
+    include_inputs                  0;   Boolean for if inputs (contact forces and joint velocities) should be included in reference trajectory
+    refine_to                       0;   Boolean for if resulting long horizon TO reference trajectory should be refined (not really working currently)
+    full_ref_traj                   1;   Boolean for if full reference trajectory (stance + swing) should be sent, or just stances
+    near_goal_dist_threshold     0.15;   Distance to final goal position in reference trajectory to consider position constraint met
+}
+
+projection
+{
+    sampling_iters      25; Number of iterations for random sampling configurations
+    projection_iters    25; Number of iterations for projecting configurations
+}
+
+; Medium superquadrics
+superquadrics
+{
+    dimX                    0.200;               dimension in x-direction
+    dimY                    0.150;               dimension in y-direction
+    dimZ                    0.150;             dimension in z-direction
+    curvX                    5.00;                curvature in x-direction
+    curvY                    5.00;                curvature in y-direction
+    curvZ                    5.00;                curvature in z-direction
+
+    x_offset_front           0.225;               offset in x-direction for front two feet
+    x_offset_back           -0.225;              offset in x-direction for back two feet
+    y_offset_front           0.200;              offset in y-direction for front two feet
+    y_offset_back            0.200;              offset in y-direction for back two feet
+    z_offset_front          -0.275;              offset in z-direction for front two feet
+    z_offset_back           -0.275;              offset in z-direction for back two feet
+    roll_front              0.0;               roll of superquadrics for front two feet
+    roll_back               0.0;               roll of superquadrics for back two feet
+    pitch_front             0.0;                pitch of superquadrics for front two feet
+    pitch_back              0.0;                pitch of superquadrics for back two feet
+    yaw_front               0.0;                yaw of superquadrics for front two feet
+    yaw_back                0.0;                yaw of superquadrics for back two feet
+}

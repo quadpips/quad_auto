@@ -1,0 +1,19 @@
+; multiple_shooting settings
+multiple_shooting
+{
+  dt                                    0.01
+  sqpIteration                          25
+  deltaTol                              1e-6 // Primal termination condition : RMS update of x(t) and u(t) are both below this value, default: 1e-6
+  costTol                               1e-4 // Cost/constraint satisfaction termination condition : (cost{i+1} - (cost{i}) < costTol AND constraints{i+1} < g_min, default: 1e-4
+  g_max                                 1e6 // maximum norm of constraint violation, used in line search, default: 1e6
+  g_min                                 1e-2 // minimum norm of constraint violation, default: 1e-6
+  projectStateInputEqualityConstraints  true
+  printSolverStatistics                 false
+  printSolverStatus                     false
+  printLinesearch                       false
+  useFeedbackPolicy                     false // true
+  integratorType                        RK2
+  alpha_min                             1e-5 // threshold for line search step size, default: 1e-4
+  nThreads                              3
+  threadPriority                        50  
+}

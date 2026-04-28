@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>legged_common</name>
+  <version>0.1.0</version>
+  <description>The common classes and functions for legged control, estimation, and dynamics modeling</description>
+
+  <maintainer email="mass@gatech.edu">Max Asselmeier</maintainer>
+  <license>BSD</license>
+
+  <!-- Build tool -->
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <depend>legged_utils</depend>
+  <depend>rclcpp</depend>
+  <depend>pinocchio</depend>
+  
+  <export>                               
+   <build_type>ament_cmake</build_type>
+  </export>
+</package>

@@ -1,0 +1,48 @@
+[submodule "dependencies/ocs2_robotic_assets"]
+	path = dependencies/ocs2_robotic_assets
+	url = https://github.gatech.edu/GeorgiaTechLIDARGroup/ocs2_robotic_assets.git
+	branch = ros2
+[submodule "dependencies/plane_segmentation"]
+	path = dependencies/plane_segmentation
+	url = https://github.gatech.edu/GeorgiaTechLIDARGroup/plane_segmentation.git
+	branch = main
+[submodule "dependencies/ocs2"]
+	path = dependencies/ocs2
+	url = https://github.gatech.edu/GeorgiaTechLIDARGroup/ocs2.git
+	branch = ros2_humble
+[submodule "dependencies/depth_img_normal_estimation"]
+	path = dependencies/depth_img_normal_estimation
+	url = https://github.com/max-assel/depth_img_normal_estimation.git
+	branch = ros2_humble
+[submodule "dependencies/egocylindrical"]
+	path = dependencies/egocylindrical
+	url = https://github.gatech.edu/ivabots/egocylindrical.git
+	branch = ros2_humble
+[submodule "dependencies/egocylindrical_msgs"]
+	path = dependencies/egocylindrical_msgs
+	url = https://github.gatech.edu/ivabots/egocylindrical_msgs.git
+	branch = main
+[submodule "dependencies/superpixels"]
+	path = dependencies/superpixels
+	url = https://github.com/max-assel/superpixels.git
+	branch = ros2_humble
+[submodule "dependencies/gazebo_ros_pkgs"]
+	path = dependencies/gazebo_ros_pkgs
+	url = https://github.gatech.edu/GeorgiaTechLIDARGroup/gazebo_ros_pkgs.git
+	branch = humble
+[submodule "dependencies/realsense_gazebo_plugin"]
+	path = dependencies/realsense_gazebo_plugin
+	url = https://github.com/max-assel/realsense_gazebo_plugin.git
+	branch = foxy-devel
+[submodule "dependencies/grid_map"]
+	path = dependencies/grid_map
+	url = https://github.gatech.edu/GeorgiaTechLIDARGroup/grid_map.git
+	branch = humble
+[submodule "dependencies/mmp_quadruped"]
+	path = dependencies/mmp_quadruped
+	url = https://github.gatech.edu/GeorgiaTechLIDARGroup/mmp_quadruped.git
+	branch = ros2_humble
+[submodule "dependencies/gazebo_ros2_control"]
+	path = dependencies/gazebo_ros2_control
+	url = https://github.com/ros-controls/gazebo_ros2_control.git
+	branch = humble

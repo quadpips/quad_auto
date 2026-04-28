@@ -1,0 +1,3 @@
+ros2 bag record --use-sim-time /camera/color/camera_info /camera/color/image_raw /camera/color_normals /camera/depth/camera_info /camera/depth/image_raw /camera/normals /floor_image /floor_normals /egocylinder/floor_normals_colored /tf /tf_static /polygon_visualization
+
+rostopic pub -r 1 /cmd_vel geometry_msgs/Twist  '{linear:  {x: 0.15, y: 0.0, z: 0.0}, angular: {x: 0.0,y: 0.0,z: 0.0}}'

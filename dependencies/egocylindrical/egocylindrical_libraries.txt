@@ -1,0 +1,189 @@
+
+##Verified that ${OpenMP_CXX_FLAGS} contains what it should
+#message(STATUS=WARNING ${OpenMP_CXX_FLAGS})
+   
+#EGOCYLINDRICAL_PROPAGATOR_NODELET
+add_library(egocylindrical_propagator_nodelet MODULE src/egocylindrical_propagator_nodelet.cpp)
+target_link_libraries(egocylindrical_propagator_nodelet
+   egocylindrical_propagator
+   ${catkin_LIBRARIES}
+   )
+
+#POINT_CLOUD_NODELET
+add_library(point_cloud_nodelet MODULE src/point_cloud_nodelet.cpp)
+target_link_libraries(point_cloud_nodelet
+   point_cloud_generator
+   ${catkin_LIBRARIES}
+   )
+  
+#PROJECTED_POINT_CLOUD_NODELET
+add_library(projected_point_cloud_nodelet MODULE src/projected_point_cloud_nodelet.cpp)
+target_link_libraries(projected_point_cloud_nodelet
+   projected_point_cloud_generator
+   ${catkin_LIBRARIES}
+   )
+
+#NORMAL_POINT_CLOUD_GENERATOR
+add_library(normal_point_cloud_floor_only_generator src/normal_point_cloud_floor_only_generator.cpp)
+target_link_libraries(normal_point_cloud_floor_only_generator
+   normal_point_cloud_floor_only_core
+   ${catkin_LIBRARIES}
+   )
+
+#NORMAL_POINT_CLOUD_NODE
+add_executable(normal_point_cloud_floor_only_node src/normal_point_cloud_floor_only_node.cpp)
+target_link_libraries(normal_point_cloud_floor_only_node
+   normal_point_cloud_floor_only_generator
+   ${catkin_LIBRARIES}
+   ${OpenCV_LIBRARIES}
+   ${PCL_LIBRARIES}
+   ${OpenMP_CXX_FLAGS}
+   )
+
+#RANGE_IMAGE_NODELET
+add_library(range_image_nodelet MODULE src/range_image_nodelet.cpp)
+target_link_libraries(range_image_nodelet
+   range_image_generator
+   ${catkin_LIBRARIES}
+   )
+   
+#FLOOR_IMAGE_NODELET
+add_library(floor_image_nodelet MODULE src/floor_image_nodelet.cpp)
+target_link_libraries(floor_image_nodelet
+   floor_image_generator
+   ${catkin_LIBRARIES}
+   )
+
+   
+##RANGE_IMAGE_CONVERTER
+# add_library(range_image_converter src/range_image_converter.cpp)
+# add_dependencies(range_image_converter ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+# target_link_libraries(range_image_converter
+#    ${catkin_LIBRARIES}
+#    ${OpenMP_CXX_FLAGS}
+#    )
+
+#RANGE_IMAGE_CONVERTER_NODE
+add_executable(range_image_converter_node src/range_image_converter_node.cpp)
+add_dependencies(range_image_converter_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(range_image_converter_node
+   range_image_converter
+   ${catkin_LIBRARIES}
+   )
+
+add_executable(range_image_dilator_node src/range_image_dilator_node.cpp)
+target_compile_options(range_image_dilator_node PRIVATE)
+target_link_libraries(range_image_dilator_node
+   range_image_dilator
+   ${catkin_LIBRARIES}
+   )
+
+#RANGE_IMAGE_INFLATOR
+add_library(range_image_inflator src/range_image_inflator_generator.cpp)
+add_dependencies(range_image_inflator ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(range_image_inflator
+   ${catkin_LIBRARIES}
+   ${OpenMP_CXX_FLAGS}
+   )
+  
+##RANGE_IMAGE_INFLATOR_NODE
+add_executable(range_image_inflator_node src/range_image_inflator_node.cpp)
+add_dependencies(range_image_inflator_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(range_image_inflator_node
+   range_image_inflator
+   ${catkin_LIBRARIES}
+   )
+
+#RANGE_IMAGE_INFLATOR_NODELET
+add_library(egocylindrical_range_image_inflator_nodelet MODULE src/range_image_inflator_nodelet.cpp)
+add_dependencies(egocylindrical_range_image_inflator_nodelet ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(egocylindrical_range_image_inflator_nodelet
+   range_image_inflator
+   ${catkin_LIBRARIES}
+   )
+
+
+#CAN_IMAGE_INFLATOR
+add_library(can_image_inflator src/can_image_inflator_generator.cpp)
+add_dependencies(can_image_inflator ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(can_image_inflator
+   ${catkin_LIBRARIES}
+   ${OpenMP_CXX_FLAGS}
+   )
+
+##RANGE_IMAGE_INFLATOR_NODE
+add_executable(can_image_inflator_node src/can_image_inflator_node.cpp)
+add_dependencies(can_image_inflator_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(can_image_inflator_node
+   can_image_inflator
+   ${catkin_LIBRARIES}
+   )
+
+#RANGE_IMAGE_CONVERTER_NODELET
+add_library(egocylindrical_range_image_converter_nodelet MODULE src/range_image_converter_nodelet.cpp)
+add_dependencies(egocylindrical_range_image_converter_nodelet ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(egocylindrical_range_image_converter_nodelet
+   range_image_converter
+   ${catkin_LIBRARIES}
+   )
+
+
+add_executable(sensor_collection_tester src/sensor_collection_tester)
+add_dependencies(sensor_collection_tester ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(sensor_collection_tester
+   sensors
+   ${catkin_LIBRARIES}
+   )
+
+
+#APPROXIMATION_VALIDATION
+add_executable(approximation_validation src/approximation_validation.cpp)
+add_dependencies(approximation_validation ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(approximation_validation
+   ${catkin_LIBRARIES}
+   )
+
+
+add_executable(filter_node src/depth_image_filter.cpp)
+add_dependencies(filter_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(filter_node
+   ${catkin_LIBRARIES}
+   )
+
+
+add_executable(unit_tests test/unit_tests.cpp)
+add_dependencies(unit_tests ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(unit_tests
+   ${catkin_LIBRARIES}
+   ${OpenCV_LIBRARIES}
+   )
+   
+   
+   point_propagator
+   depth_image_remapper
+   range_image_dilator
+   range_image_converter
+   depth_image_difference
+   depth_image_inserter
+   laser_scan_inserter
+   sensors
+   ecwrapper_buffer
+   egocylindrical_propagator
+   
+   
+           egocylindrical_propagator_node
+         point_cloud_node
+         projected_point_cloud_node
+         semantic_point_cloud_node
+         normal_point_cloud_node
+         normal_point_cloud_floor_only_node
+         range_image_node
+         floor_image_node
+         range_image_converter_node
+         range_image_dilator_node
+         range_image_inflator_node
+         can_image_inflator_node
+         sensor_collection_tester
+         filter_node
+         approximation_validation
+         unit_tests

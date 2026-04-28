@@ -1,0 +1,64 @@
+root    dummy_base
+
+left_front {
+    root    dummy_FL_hip_joint
+    tip     dummy_FL_foot
+    joints {
+        [0] dummy_FL_hip_joint
+        [1] dummy_FL_thigh_joint
+        [2] dummy_FL_calf_joint
+    }
+}
+
+right_front {
+    root    dummy_FR_hip_joint
+    tip     dummy_FR_foot
+    joints {
+        [0] dummy_FR_hip_joint
+        [1] dummy_FR_thigh_joint
+        [2] dummy_FR_calf_joint
+    }
+}
+
+left_hind {
+    root    dummy_RL_hip_joint
+    tip     dummy_RL_foot
+    joints {
+        [0] dummy_RL_hip_joint
+        [1] dummy_RL_thigh_joint
+        [2] dummy_RL_calf_joint
+    }
+}
+
+right_hind {
+    root    dummy_RR_hip_joint
+    tip     dummy_RR_foot
+    joints {
+        [0] dummy_RR_hip_joint
+        [1] dummy_RR_thigh_joint
+        [2] dummy_RR_calf_joint
+    }
+}
+
+collisions {
+    collisionSpheres {
+        [0] "dummy_FL_calf_joint, 0.08"
+        [1] "dummy_FR_calf_joint, 0.08"
+        [2] "dummy_RL_calf_joint, 0.08"
+        [3] "dummy_RR_calf_joint, 0.08"
+    }
+    collisionOffsets {
+        (0,0) -0.055
+        (0,1) 0.0
+        (0,2) 0.0
+        (1,0) -0.055
+        (1,1) 0.0
+        (1,2) 0.0
+        (2,0) -0.055
+        (2,1) 0.0
+        (2,2) 0.0
+        (3,0) -0.055
+        (3,1) 0.0
+        (3,2) 0.0
+    }
+}

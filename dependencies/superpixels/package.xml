@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>superpixels</name>
+  <version>0.0.1</version>
+  <description>The superpixels package</description>
+
+  <!-- One maintainer tag required, multiple allowed, one person per tag -->
+  <maintainer email="masselmeier3@todo.todo">masselmeier3</maintainer>
+
+  <!-- One license tag required, multiple allowed, one license per tag -->
+  <license>TODO</license>
+
+  <author email="mass@gatech.edu">Max Asselmeier</author>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <build_depend>cmake_clang_tools</build_depend>
+
+  <depend>rclcpp</depend> 
+  <depend>cv_bridge</depend> 
+  <depend>image_transport</depend>
+  <depend>pcl_ros</depend>
+  <depend>convex_plane_decomposition</depend>
+  <depend>convex_plane_decomposition_ros</depend>
+  <depend>convex_plane_decomposition_msgs</depend>
+  <depend>segmented_planes_terrain_model</depend>
+  <depend>egocylindrical</depend>
+
+  <export>                               
+   <build_type>ament_cmake</build_type>
+  </export>
+
+</package>

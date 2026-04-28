@@ -1,0 +1,106 @@
+wbc_type          sqp ; sqp or hqp
+
+sqpWbc ; weighted QP
+{
+  ; Solver parameters
+  maxRecalculations       100
+
+  ; Task weights
+  weightBaseTracking            1.0
+  weightSwingLeg                200.0
+  weightContactForce            0.001
+
+  ; Friction cone parameters
+  frictionCoefficient     0.5
+
+  ; Swing leg kp and kd (in cartesian space - ee tracking)
+  swingKp                 370.0
+  swingKd                 10.0
+
+  ; Base position kp and kd 
+  baseKp                  1.0
+  baseKd                  0.0
+
+  ; Base orientation kp and kd
+  eulerKp                 0.0
+  eulerKd                 0.1
+
+  ; Joint swing leg kp and kd
+  jointSwingKp            3.0
+  jointSwingKd            2.0
+
+  ; Joint stance leg kp and kd
+  jointStanceKp            3.0
+  jointStanceKd            2.0
+
+  ; Joint torque limit
+  torqueLimits
+  {
+    (0,0)   23.7       ; LF_HAA
+    (1,0)   23.7       ; LF_HFE
+    (2,0)   35.55       ; LF_KFE
+    (3,0)   23.7       ; RF_HAA
+    (4,0)   23.7       ; RF_HFE
+    (5,0)   35.55       ; RF_KFE
+    (6,0)   23.7       ; LH_HAA
+    (7,0)   23.7       ; LH_HFE
+    (8,0)   35.55       ; LH_KFE
+    (9,0)   23.7       ; RH_HAA
+    (10,0)  23.7       ; RH_HFE
+    (11,0)  35.55       ; RH_KFE
+  }  
+
+  ; whether stance should be enforeced as a constraint 
+  ; or as a cost (false is more robust (e.g. slips))
+  stanceAsConstraint true  
+}
+
+hqpWbc ; Hierarchical QP
+{
+  ; Solver parameters
+  maxRecalculations       100
+
+  ; Friction cone parameters
+  frictionCoefficient     0.5
+
+  ; Swing leg kp and kd (in cartesian space - ee tracking)
+  swingKp                 370.0
+  swingKd                 37.0
+
+  ; Base position kp and kd 
+  baseKp                  1.0
+  baseKd                  0.1
+
+  ; Base orientation kp and kd
+  eulerKp                 1.0
+  eulerKd                 0.1
+
+  ; Joint swing leg kp and kd
+  jointSwingKp            3.0
+  jointSwingKd            2.0
+
+  ; Joint stance leg kp and kd
+  jointStanceKp            3.0
+  jointStanceKd            2.0
+
+  ; Joint torque limit
+  torqueLimits
+  {
+    (0,0)   23.7       ; LF_HAA
+    (1,0)   23.7       ; LF_HFE
+    (2,0)   35.55       ; LF_KFE
+    (3,0)   23.7       ; RF_HAA
+    (4,0)   23.7       ; RF_HFE
+    (5,0)   35.55       ; RF_KFE
+    (6,0)   23.7       ; LH_HAA
+    (7,0)   23.7       ; LH_HFE
+    (8,0)   35.55       ; LH_KFE
+    (9,0)   23.7       ; RH_HAA
+    (10,0)  23.7       ; RH_HFE
+    (11,0)  35.55       ; RH_KFE
+  } 
+
+  ; whether stance should be enforeced as a constraint 
+  ; or as a cost (false is more robust (e.g. slips))
+  stanceAsConstraint true     
+}

@@ -1,0 +1,67 @@
+<launch>
+    <arg name="robot_name"            default="go2"  />
+    <arg name="rviz"                  default="true" />
+    <arg name="performance_indices"   default="true" />
+    <arg name="description_name"      default="ocs2_go2_description"/>
+    <arg name="target_command"        default="$(find ocs2_go2_mpc)/config/$(arg robot_name)/targetCommand.info"/>
+
+    <arg name="env_prefix"                          default="flat"/>
+
+    <!-- The task file for the mpc. -->
+    <arg name="taskFile"                                              default="$(find mmp_quadruped)/config/mpc/task.info"/>
+    <!-- <arg name="taskFile"                                              default="$(find ocs2_quadruped_ros)/config/mpc/task_go2.info"/> -->
+
+    <!-- The URDF model of the robot -->
+    <arg name="urdfFile"                                              default="$(find go2_description)/urdf/go2_simplified.urdf"/>
+
+    <!-- The frame file for the robot. -->
+    <arg name="frameFile"                                             default="$(find mmp_quadruped)/config/frame_declaration.info"/>
+
+    <!-- The environment layout file -->
+    <arg name="envFile"                                               default="$(find mmp_quadruped)/config/environment/$(arg env_prefix).json" />
+
+    <!-- The SQP configuration file. -->
+    <arg name="sqpFile"                                               default="$(find mmp_quadruped)/config/mpc/sqp.info"/>
+
+      <!-- The file defining gait definition -->
+      <arg name="gaitCommandFile"                                       default="$(find mmp_quadruped)/config/gait_go2.info"/>
+
+    <param name="taskFile"                                            value="$(arg taskFile)"/>
+    <param name="urdfFile"                                            value="$(arg urdfFile)"/>
+    <param name="frameFile"                                           value="$(arg frameFile)" />
+    <param name="envFile"                                             value="$(arg envFile)" />
+    <param name="sqpFile"                                             value="$(arg sqpFile)"/>
+    <param name="gaitCommandFile"                                     value="$(arg gaitCommandFile)"/>
+
+    <!-- Load robot description -->
+    <param name="$(arg description_name)"
+      command="$(find xacro)/xacro --inorder $(find go2_description)/xacro/robot_single_realsense.xacro" />
+
+    <group if="$(arg rviz)">
+      <!-- Launch visualization -->
+      <include file="$(find ocs2_custom_quadruped_interface)/launch/visualization.launch">
+          <arg name="description_name"   value="$(arg description_name)"/>
+      </include>
+    </group>
+
+    <node pkg="ocs2_go2_mpc" type="ocs2_go2_mpc_mpc_node" name="ocs2_go2_mpc_mpc_node"
+          output="screen" launch-prefix=""/>
+
+    <node pkg="ocs2_go2_mpc" type="ocs2_go2_mpc_dummy_mrt_node" name="ocs2_go2_mpc_dummy_mrt_node"
+          output="screen" launch-prefix="gnome-terminal --"/>
+
+    <node pkg="ocs2_go2_commands" type="gait_command_node" name="gait_command_node"
+          output="screen" launch-prefix="gnome-terminal --"/>
+
+    <node pkg="ocs2_go2_commands" type="target_command_node" name="target_command_node"
+          output="screen" args="$(arg target_command)" launch-prefix="gnome-terminal --"/>
+
+    <node pkg="ocs2_go2_commands" type="motion_command_node" name="motion_command_node"
+          output="screen" args="dummy" launch-prefix="gnome-terminal --"/>
+
+    <!-- Launch Performance Indices Multi-plot -->
+    <include if="$(arg performance_indices)" file="$(find ocs2_ros_interfaces)/launch/performance_indices.launch">
+      <arg name="mpc_policy_topic_name"      value="go2_mpc_policy"/>
+    </include>
+    
+</launch>

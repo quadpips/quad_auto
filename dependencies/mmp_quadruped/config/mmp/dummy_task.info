@@ -1,0 +1,307 @@
+model_settings
+{
+  algorithm                     SQP
+  recompileLibraries            true
+  robotName                     dummy
+
+  analyticalInverseKinematics   true
+
+  frictionCoefficient           0.5
+  gripperForce                -25.0   ; [N] negative gripper force -> minimum force in normal direction
+  muFrictionCone                0.1
+  deltaFrictionCone             5.0
+
+  muFootPlacement               0.1   ; magnitude scaling
+  deltaFootPlacement            0.005  ; [m] distance from constraint boundary where the barrier becomes quadratic.
+
+  muSdf                         2.5
+  deltaSdf                      0.005
+
+  muJointsPosition              0.1
+  deltaJointsPosition           0.01
+  muJointsVelocity              0.1
+  deltaJointsVelocity           0.1
+  muJointsTorque                1.0
+  deltaJointsTorque             1.0
+
+  joint_lower_limits
+  {
+     (0,0)  -1.0472       ; LF_HAA
+     (1,0)  -1.5708       ; LF_HFE
+     (2,0)  -2.7227       ; LF_KFE
+     (3,0)  -1.0472       ; RF_HAA
+     (4,0)  -1.5708       ; RF_HFE
+     (5,0)  -2.7227       ; RF_KFE
+     (6,0)  -1.0472       ; LH_HAA
+     (7,0)  -1.5708       ; LH_HFE
+     (8,0)   -2.7227     ; LH_KFE
+     (9,0)  -1.0472       ; RH_HAA
+     (10,0) -1.5708     ; RH_HFE
+     (11,0)  -2.7227    ; RH_KFE
+  }
+
+  joint_upper_limits
+  {
+     (0,0)   1.0472       ; LF_HAA
+     (1,0)   3.4907       ; LF_HFE
+     (2,0)  -0.83776       ; LF_KFE
+     (3,0)   1.0472       ; RF_HAA
+     (4,0)   3.4907      ; RF_HFE
+     (5,0)  -0.83776     ; RF_KFE
+     (6,0)   1.0472       ; LH_HAA
+     (7,0)   3.4907     ; LH_HFE
+     (8,0)   -0.83776    ; LH_KFE
+     (9,0)   1.0472       ; RH_HAA
+     (10,0)  3.4907     ; RH_HFE
+     (11,0)  -0.83776   ; RH_KFE
+  }
+
+  joint_velocity_limits
+  {
+     (0,0)    30.1       ; LF_HAA
+     (1,0)    30.1       ; LF_HFE
+     (2,0)    15.7       ; LF_KFE
+     (3,0)    30.1       ; RF_HAA
+     (4,0)    30.1       ; RF_HFE
+     (5,0)    15.7      ; RF_KFE
+     (6,0)    30.1       ; LH_HAA
+     (7,0)    30.1       ; LH_HFE
+     (8,0)    15.7      ; LH_KFE
+     (9,0)    30.1       ; RH_HAA
+     (10,0)   30.1       ; RH_HFE
+     (11,0)   15.7      ; RH_KFE
+  }
+
+  joint_torque_limits
+  {
+     (0,0)   23.7        ; LF_HAA
+     (1,0)   23.7        ; LF_HFE
+     (2,0)   35.55       ; LF_KFE
+     (3,0)   23.7        ; RF_HAA
+     (4,0)   23.7        ; RF_HFE
+     (5,0)   35.55       ; RF_KFE
+     (6,0)   23.7        ; LH_HAA
+     (7,0)   23.7        ; LH_HFE
+     (8,0)   35.55       ; LH_KFE
+     (9,0)   23.7        ; RH_HAA
+     (10,0)  23.7        ; RH_HFE
+     (11,0)  35.55       ; RH_KFE
+  }
+
+  swing_trajectory_settings
+  {
+    liftOffVelocity                   0.2
+    touchDownVelocity                -0.4
+    swingHeight                       0.08
+    errorGain                         20.0
+    swingTimeScale                    0.15
+    sdfMidswingMargin                 0.04
+    terrainMargin                     0.04
+    previousFootholdFactor            0.2
+    previousFootholdDeadzone          0.025
+    previousFootholdTimeDeadzone      0.30
+    referenceExtensionAfterHorizon    1.0
+    swingTrajectoryFromReference      0
+  }
+}
+
+terrainPlane
+{
+  position
+  {
+    x       0.0;
+    y       0.0;
+    z       0.0;
+  }
+  orientation
+  {
+    roll    0.0;
+    pitch   0.0;
+    yaw     0.0;
+  }
+}
+
+defaultModeSequenceTemplate
+{
+  modeSequence
+  {
+    [0]  STANCE
+  }
+  switchingTimes
+  {
+    [0]  0.0
+    [1]  1.0
+  }
+}
+
+; DDP settings
+ddp
+{
+  algorithm                       SLQ
+
+  nThreads                        4
+  threadPriority                  50
+
+  maxNumIterations                1
+  minRelCost                      1e-1
+  constraintTolerance             5e-3
+
+  displayInfo                     false
+  displayShortSummary             false
+  checkNumericalStability         false
+  debugPrintRollout               false
+
+  AbsTolODE                       1e-5
+  RelTolODE                       1e-3
+  maxNumStepsPerSecond            10000
+  timeStep                        0.015
+  backwardPassIntegratorType      ODE45
+
+  constraintPenaltyInitialValue   20.0
+  constraintPenaltyIncreaseRate   2.0
+
+  preComputeRiccatiTerms          true
+
+  useFeedbackPolicy               true
+
+  strategy                        LINE_SEARCH
+  lineSearch
+  {
+    minStepLength                 1e-4
+    maxStepLength                 1.0
+    hessianCorrectionStrategy     DIAGONAL_SHIFT
+    hessianCorrectionMultiple     1e-5
+  }
+}
+
+; Rollout settings
+rollout
+{
+  AbsTolODE                       1e-5
+  RelTolODE                       1e-3
+  timeStep                        0.015
+  integratorType                  ODE45
+  maxNumStepsPerSecond            10000
+  checkNumericalStability         false
+}
+
+mpc
+{
+  timeHorizon                     0.5
+  solutionTimeWindow              -1  ; [s]
+  coldStart                       false
+
+  debugPrint                      false
+
+  mpcDesiredFrequency             20  ; [Hz]
+  mrtDesiredFrequency             400 ; [Hz]
+}
+
+
+; standard state weight matrix
+Qfinal
+{
+  scaling 1e+2
+
+  ;; Base Pose: [orientation, position] ;;
+  (0,0)   300.0    ; theta_base_x
+  (1,1)   300.0    ; theta_base_y
+  (2,2)   300.0    ; theta_base_z
+  (3,3)   1000.0    ; p_base_x
+  (4,4)   1000.0    ; p_base_y
+  (5,5)   1500.0    ; p_base_z
+
+  ;; Normalized Centroidal Momentum: [angular, linear] ;;
+  (6,6)     15.0     ; L_x / robotMass
+  (7,7)     30.0     ; L_y / robotMass
+  (8,8)     30.0     ; L_z / robotMass
+  (9,9)     15.0     ; vcom_x
+  (10,10)   15.0     ; vcom_y
+  (11,11)   50.0     ; vcom_z
+
+  ;; Leg Joint Positions: [FL, RL, FR, RR] ;;
+  (12,12) 5.0     ; FL_hip_joint
+  (13,13) 5.0     ; FL_thigh_joint
+  (14,14) 5.0     ; FL_calf_joint
+  (15,15) 5.0     ; FR_hip_joint
+  (16,16) 5.0     ; FR_thigh_joint
+  (17,17) 5.0     ; FR_calf_joint
+  (18,18) 5.0     ; RL_hip_joint
+  (19,19) 5.0     ; RL_thigh_joint
+  (20,20) 5.0     ; RL_calf_joint
+  (21,21) 5.0     ; RR_hip_joint
+  (22,22) 5.0     ; RR_thigh_joint
+  (23,23) 5.0     ; RR_calf_joint
+}
+
+; initial state
+initialRobotState
+{
+  ; orientation
+  (0,0) 0.0     ; x
+  (1,0) 0.0     ; y
+  (2,0) 0.0     ; z
+
+  ; position
+  (3,0) 0.0     ; x
+  (4,0) 0.0     ; y
+  (5,0) 0.30    ; z
+
+  ; angular velocity
+  (6,0) 0.0    ; x
+  (7,0) 0.0    ; y
+  (8,0) 0.0    ; z
+
+  ; translational velocity
+  (9,0)  0.0    ; x
+  (10,0) 0.0    ; y
+  (11,0) 0.0    ; z
+
+  ;; Leg Joint Positions: [FL, RL, FR, RR] ;;
+  (12,0)   0.0   ; FL_hip_joint
+  (13,0)   0.72   ; FL_thigh_joint
+  (14,0)  -1.44   ; FL_calf_joint
+  (15,0)   0.0   ; RL_hip_joint
+  (16,0)   0.85   ; RL_thigh_joint
+  (17,0)  -1.60   ; RL_calf_joint
+  (18,0)   0.0   ; FR_hip_joint
+  (19,0)   0.72   ; FR_thigh_joint
+  (20,0)  -1.44   ; FR_calf_joint
+  (21,0)   0.0   ; RR_hip_joint
+  (22,0)   0.85   ; RR_thigh_joint
+  (23,0)  -1.60   ; RR_calf_joint
+}
+
+tracking_cost_weights
+{
+    ; Base
+    roll                   100.0;
+    pitch                  300.0;
+    yaw                    300.0;
+    base_position_x       1000.0;
+    base_position_y       1000.0;
+    base_position_z       1500.0;
+    base_angular_vel_x      10.0;
+    base_angular_vel_y      30.0;
+    base_angular_vel_z      30.0;
+    base_linear_vel_x       15.0;
+    base_linear_vel_y       15.0;
+    base_linear_vel_z       30.0;
+
+    ; Per leg
+    joint_position_HAA       2.0;
+    joint_position_HFE       2.0;
+    joint_position_KFE       1.0;
+    foot_position_x         30.0;
+    foot_position_y         30.0;
+    foot_position_z         30.0;
+    joint_velocity_HAA      0.02;
+    joint_velocity_HFE      0.02;
+    joint_velocity_KFE      0.01;
+    foot_velocity_x         15.0;
+    foot_velocity_y         15.0;
+    foot_velocity_z         15.0;
+    contact_force_x        0.001;
+    contact_force_y        0.001;
+    contact_force_z        0.001;
+}

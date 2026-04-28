@@ -1,0 +1,12 @@
+
+# For point cloud core, just skipping maybe ...
+
+pcl_ros is not ready
+
+I will sudo apt-get remove ros-humble-perception-pcl_ros
+
+Manually install remaining perception packages I need
+
+// Not sure if node_.get() image transport compressed stuff is right
+
+// Not sure if we need the SubscriberStatusCallback?? In range_image_dilator_generator

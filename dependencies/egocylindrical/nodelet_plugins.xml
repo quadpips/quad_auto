@@ -1,0 +1,55 @@
+<library path="lib/libegocylindrical_propagator_nodelet">
+  <class name="egocylindrical/egocylindrical_propagator_nodelet" type="egocylindrical::EgocylindricalPropagatorNodelet" base_class_type="nodelet::Nodelet">
+    <description>
+      Nodelet for egocylindrical propagation
+    </description>
+  </class>
+</library>
+
+<library path="lib/librange_image_nodelet">
+  <class name="egocylindrical/range_image_nodelet" type="egocylindrical::EgocylindricalRangeImageNodelet" base_class_type="nodelet::Nodelet">
+    <description>
+      Nodelet for egocylindrical range image generation
+    </description>
+  </class>
+</library>
+
+<library path="lib/libpoint_cloud_nodelet">
+  <class name="egocylindrical/point_cloud_nodelet" type="egocylindrical::EgocylindricalPointCloudNodelet" base_class_type="nodelet::Nodelet">
+    <description>
+      Nodelet for egocylindrical point cloud generation
+    </description>
+  </class>
+</library>
+
+<library path="lib/libprojected_point_cloud_nodelet">
+  <class name="egocylindrical/projected_point_cloud_nodelet" type="egocylindrical::ProjectedPointCloudNodelet" base_class_type="nodelet::Nodelet">
+    <description>
+      Nodelet for projected egocylindrical point cloud generation
+    </description>
+  </class>
+</library>
+
+<library path="lib/libdedicated_egocylindrical_propagator_nodelet">
+  <class name="egocylindrical/dedicated_egocylindrical_propagator_nodelet" type="egocylindrical::DedicatedEgocylindricalPropagatorNodelet" base_class_type="nodelet::Nodelet">
+    <description>
+      Nodelet for egocylindrical propagation
+    </description>
+  </class>
+</library>
+
+<library path="lib/libegocylindrical_range_image_inflator_nodelet">
+  <class name="egocylindrical/range_image_inflator_nodelet" type="egocylindrical::RangeImageInflatorNodelet" base_class_type="nodelet::Nodelet">
+    <description>
+      Nodelet for inflating egocylindrical range images
+    </description>
+  </class>
+</library>
+
+<library path="lib/libegocylindrical_range_image_converter_nodelet">
+  <class name="egocylindrical/range_image_converter_nodelet" type="egocylindrical::RangeImageConverterNodelet" base_class_type="nodelet::Nodelet">
+    <description>
+      Nodelet for inflating egocylindrical range images
+    </description>
+  </class>
+</library>

@@ -1,0 +1,1202 @@
+<sdf version="1.7">
+  <world name="default">
+    <physics type="ode">
+    <max_step_size>0.001</max_step_size>
+    <real_time_factor>1.0</real_time_factor>
+    <real_time_update_rate>1000</real_time_update_rate>
+    <gravity>0 0 -9.81</gravity>
+        <ode>
+            <solver>
+            <type>quick</type>  
+            <iters>50</iters> 
+            <sor>1.3</sor>
+            </solver>  
+            <constraints>
+            <cfm>0.0</cfm>
+            <erp>0.2</erp>
+            <contact_max_correcting_vel>10.0</contact_max_correcting_vel>
+            <contact_surface_layer>0.001</contact_surface_layer>
+            </constraints>  
+        </ode>
+    </physics>
+
+    <scene>
+    <sky>
+        <clouds>
+            <speed>12</speed>
+        </clouds>
+    </sky>
+    </scene>
+    <!-- A global light source -->
+    <include>
+        <uri>model://sun</uri>
+    </include>
+    <!-- A ground plane -->
+    <include>
+        <uri>model://ground_plane</uri>
+    </include>
+    <model name="static_environment">
+  <static>true</static>
+  <link name="region_0">
+    <pose>0.5 0.0 0.05 0.0 0.0 0.0</pose>
+    <collision name="region_0_collision">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <surface>
+        <friction>
+          <ode>
+            <mu>0.8</mu>
+            <mu2>0.8</mu2>
+          </ode>
+        </friction>
+      </surface>
+    </collision>
+    <visual name="region_0_visual">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <material>
+        <ambient>0.0 0.5770814211898362 0.8700248482577024 1.0</ambient>
+        <diffuse>0.0 0.5770814211898362 0.8700248482577024 1.0</diffuse>
+      </material>
+    </visual>
+  </link>
+  <link name="region_1">
+    <pose>0.8 0.0 0.05 0.0 0.0 0.0</pose>
+    <collision name="region_1_collision">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <surface>
+        <friction>
+          <ode>
+            <mu>0.8</mu>
+            <mu2>0.8</mu2>
+          </ode>
+        </friction>
+      </surface>
+    </collision>
+    <visual name="region_1_visual">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <material>
+        <ambient>0.0 0.5072874812427098 0.9593735040499425 1.0</ambient>
+        <diffuse>0.0 0.5072874812427098 0.9593735040499425 1.0</diffuse>
+      </material>
+    </visual>
+  </link>
+  <link name="region_2">
+    <pose>1.1 0.0 0.05 0.0 0.0 0.0</pose>
+    <collision name="region_2_collision">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <surface>
+        <friction>
+          <ode>
+            <mu>0.8</mu>
+            <mu2>0.8</mu2>
+          </ode>
+        </friction>
+      </surface>
+    </collision>
+    <visual name="region_2_visual">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <material>
+        <ambient>0.0 0.9784746681375585 0.5686046606780382 1.0</ambient>
+        <diffuse>0.0 0.9784746681375585 0.5686046606780382 1.0</diffuse>
+      </material>
+    </visual>
+  </link>
+  <link name="region_3">
+    <pose>1.4 0.0 0.05 0.0 0.0 0.0</pose>
+    <collision name="region_3_collision">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <surface>
+        <friction>
+          <ode>
+            <mu>0.8</mu>
+            <mu2>0.8</mu2>
+          </ode>
+        </friction>
+      </surface>
+    </collision>
+    <visual name="region_3_visual">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <material>
+        <ambient>0.0 0.972112568026521 0.9263677705546425 1.0</ambient>
+        <diffuse>0.0 0.972112568026521 0.9263677705546425 1.0</diffuse>
+      </material>
+    </visual>
+  </link>
+  <link name="region_4">
+    <pose>1.7 0.0 0.05 0.0 0.0 0.0</pose>
+    <collision name="region_4_collision">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <surface>
+        <friction>
+          <ode>
+            <mu>0.8</mu>
+            <mu2>0.8</mu2>
+          </ode>
+        </friction>
+      </surface>
+    </collision>
+    <visual name="region_4_visual">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <material>
+        <ambient>0.0 0.7760188166322832 0.7426887068313548 1.0</ambient>
+        <diffuse>0.0 0.7760188166322832 0.7426887068313548 1.0</diffuse>
+      </material>
+    </visual>
+  </link>
+  <link name="region_5">
+    <pose>0.65 0.15 0.05 0.0 0.0 0.0</pose>
+    <collision name="region_5_collision">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <surface>
+        <friction>
+          <ode>
+            <mu>0.8</mu>
+            <mu2>0.8</mu2>
+          </ode>
+        </friction>
+      </surface>
+    </collision>
+    <visual name="region_5_visual">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <material>
+        <ambient>0.0 0.5676050891845584 0.558136508700845 1.0</ambient>
+        <diffuse>0.0 0.5676050891845584 0.558136508700845 1.0</diffuse>
+      </material>
+    </visual>
+  </link>
+  <link name="region_6">
+    <pose>0.95 0.15 0.05 0.0 0.0 0.0</pose>
+    <collision name="region_6_collision">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <surface>
+        <friction>
+          <ode>
+            <mu>0.8</mu>
+            <mu2>0.8</mu2>
+          </ode>
+        </friction>
+      </surface>
+    </collision>
+    <visual name="region_6_visual">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <material>
+        <ambient>0.0 0.735614889125007 0.9080841490230134 1.0</ambient>
+        <diffuse>0.0 0.735614889125007 0.9080841490230134 1.0</diffuse>
+      </material>
+    </visual>
+  </link>
+  <link name="region_7">
+    <pose>1.25 0.15 0.05 0.0 0.0 0.0</pose>
+    <collision name="region_7_collision">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <surface>
+        <friction>
+          <ode>
+            <mu>0.8</mu>
+            <mu2>0.8</mu2>
+          </ode>
+        </friction>
+      </surface>
+    </collision>
+    <visual name="region_7_visual">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <material>
+        <ambient>0.0 0.8513111776276232 0.6637847381317115 1.0</ambient>
+        <diffuse>0.0 0.8513111776276232 0.6637847381317115 1.0</diffuse>
+      </material>
+    </visual>
+  </link>
+  <link name="region_8">
+    <pose>1.55 0.15 0.05 0.0 0.0 0.0</pose>
+    <collision name="region_8_collision">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <surface>
+        <friction>
+          <ode>
+            <mu>0.8</mu>
+            <mu2>0.8</mu2>
+          </ode>
+        </friction>
+      </surface>
+    </collision>
+    <visual name="region_8_visual">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <material>
+        <ambient>0.0 0.8122910558676761 0.9751567623497627 1.0</ambient>
+        <diffuse>0.0 0.8122910558676761 0.9751567623497627 1.0</diffuse>
+      </material>
+    </visual>
+  </link>
+  <link name="region_9">
+    <pose>1.8499999999999999 0.15 0.05 0.0 0.0 0.0</pose>
+    <collision name="region_9_collision">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <surface>
+        <friction>
+          <ode>
+            <mu>0.8</mu>
+            <mu2>0.8</mu2>
+          </ode>
+        </friction>
+      </surface>
+    </collision>
+    <visual name="region_9_visual">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <material>
+        <ambient>0.0 0.7033201509033309 0.7256542057106572 1.0</ambient>
+        <diffuse>0.0 0.7033201509033309 0.7256542057106572 1.0</diffuse>
+      </material>
+    </visual>
+  </link>
+  <link name="region_10">
+    <pose>0.5 0.3 0.05 0.0 0.0 0.0</pose>
+    <collision name="region_10_collision">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <surface>
+        <friction>
+          <ode>
+            <mu>0.8</mu>
+            <mu2>0.8</mu2>
+          </ode>
+        </friction>
+      </surface>
+    </collision>
+    <visual name="region_10_visual">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <material>
+        <ambient>0.0 0.7003158136808367 0.9975690801692793 1.0</ambient>
+        <diffuse>0.0 0.7003158136808367 0.9975690801692793 1.0</diffuse>
+      </material>
+    </visual>
+  </link>
+  <link name="region_11">
+    <pose>0.8 0.3 0.05 0.0 0.0 0.0</pose>
+    <collision name="region_11_collision">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <surface>
+        <friction>
+          <ode>
+            <mu>0.8</mu>
+            <mu2>0.8</mu2>
+          </ode>
+        </friction>
+      </surface>
+    </collision>
+    <visual name="region_11_visual">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <material>
+        <ambient>0.0 0.709625135129553 0.7120262232754994 1.0</ambient>
+        <diffuse>0.0 0.709625135129553 0.7120262232754994 1.0</diffuse>
+      </material>
+    </visual>
+  </link>
+  <link name="region_12">
+    <pose>1.1 0.3 0.05 0.0 0.0 0.0</pose>
+    <collision name="region_12_collision">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <surface>
+        <friction>
+          <ode>
+            <mu>0.8</mu>
+            <mu2>0.8</mu2>
+          </ode>
+        </friction>
+      </surface>
+    </collision>
+    <visual name="region_12_visual">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <material>
+        <ambient>0.0 0.7327540500862555 0.5175841307354023 1.0</ambient>
+        <diffuse>0.0 0.7327540500862555 0.5175841307354023 1.0</diffuse>
+      </material>
+    </visual>
+  </link>
+  <link name="region_13">
+    <pose>1.4 0.3 0.05 0.0 0.0 0.0</pose>
+    <collision name="region_13_collision">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <surface>
+        <friction>
+          <ode>
+            <mu>0.8</mu>
+            <mu2>0.8</mu2>
+          </ode>
+        </friction>
+      </surface>
+    </collision>
+    <visual name="region_13_visual">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <material>
+        <ambient>0.0 0.8180999969164338 0.5139538944307662 1.0</ambient>
+        <diffuse>0.0 0.8180999969164338 0.5139538944307662 1.0</diffuse>
+      </material>
+    </visual>
+  </link>
+  <link name="region_14">
+    <pose>1.7 0.3 0.05 0.0 0.0 0.0</pose>
+    <collision name="region_14_collision">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <surface>
+        <friction>
+          <ode>
+            <mu>0.8</mu>
+            <mu2>0.8</mu2>
+          </ode>
+        </friction>
+      </surface>
+    </collision>
+    <visual name="region_14_visual">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <material>
+        <ambient>0.0 0.5275099966701 0.761623035389146 1.0</ambient>
+        <diffuse>0.0 0.5275099966701 0.761623035389146 1.0</diffuse>
+      </material>
+    </visual>
+  </link>
+  <link name="region_15">
+    <pose>0.65 0.44999999999999996 0.05 0.0 0.0 0.0</pose>
+    <collision name="region_15_collision">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <surface>
+        <friction>
+          <ode>
+            <mu>0.8</mu>
+            <mu2>0.8</mu2>
+          </ode>
+        </friction>
+      </surface>
+    </collision>
+    <visual name="region_15_visual">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <material>
+        <ambient>0.0 0.5568008597699086 0.6385586072125982 1.0</ambient>
+        <diffuse>0.0 0.5568008597699086 0.6385586072125982 1.0</diffuse>
+      </material>
+    </visual>
+  </link>
+  <link name="region_16">
+    <pose>0.95 0.44999999999999996 0.05 0.0 0.0 0.0</pose>
+    <collision name="region_16_collision">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <surface>
+        <friction>
+          <ode>
+            <mu>0.8</mu>
+            <mu2>0.8</mu2>
+          </ode>
+        </friction>
+      </surface>
+    </collision>
+    <visual name="region_16_visual">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <material>
+        <ambient>0.0 0.7532780378340473 0.7307201300329775 1.0</ambient>
+        <diffuse>0.0 0.7532780378340473 0.7307201300329775 1.0</diffuse>
+      </material>
+    </visual>
+  </link>
+  <link name="region_17">
+    <pose>1.25 0.44999999999999996 0.05 0.0 0.0 0.0</pose>
+    <collision name="region_17_collision">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <surface>
+        <friction>
+          <ode>
+            <mu>0.8</mu>
+            <mu2>0.8</mu2>
+          </ode>
+        </friction>
+      </surface>
+    </collision>
+    <visual name="region_17_visual">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <material>
+        <ambient>0.0 0.8016778015837769 0.7219359280956344 1.0</ambient>
+        <diffuse>0.0 0.8016778015837769 0.7219359280956344 1.0</diffuse>
+      </material>
+    </visual>
+  </link>
+  <link name="region_18">
+    <pose>1.55 0.44999999999999996 0.05 0.0 0.0 0.0</pose>
+    <collision name="region_18_collision">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <surface>
+        <friction>
+          <ode>
+            <mu>0.8</mu>
+            <mu2>0.8</mu2>
+          </ode>
+        </friction>
+      </surface>
+    </collision>
+    <visual name="region_18_visual">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <material>
+        <ambient>0.0 0.6042502442300901 0.9722907310781624 1.0</ambient>
+        <diffuse>0.0 0.6042502442300901 0.9722907310781624 1.0</diffuse>
+      </material>
+    </visual>
+  </link>
+  <link name="region_19">
+    <pose>1.8499999999999999 0.44999999999999996 0.05 0.0 0.0 0.0</pose>
+    <collision name="region_19_collision">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <surface>
+        <friction>
+          <ode>
+            <mu>0.8</mu>
+            <mu2>0.8</mu2>
+          </ode>
+        </friction>
+      </surface>
+    </collision>
+    <visual name="region_19_visual">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <material>
+        <ambient>0.0 0.5155755354258832 0.8326287162653946 1.0</ambient>
+        <diffuse>0.0 0.5155755354258832 0.8326287162653946 1.0</diffuse>
+      </material>
+    </visual>
+  </link>
+  <link name="region_20">
+    <pose>0.5 0.6 0.05 0.0 0.0 0.0</pose>
+    <collision name="region_20_collision">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <surface>
+        <friction>
+          <ode>
+            <mu>0.8</mu>
+            <mu2>0.8</mu2>
+          </ode>
+        </friction>
+      </surface>
+    </collision>
+    <visual name="region_20_visual">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <material>
+        <ambient>0.0 0.8186927475704847 0.9312325811488076 1.0</ambient>
+        <diffuse>0.0 0.8186927475704847 0.9312325811488076 1.0</diffuse>
+      </material>
+    </visual>
+  </link>
+  <link name="region_21">
+    <pose>0.8 0.6 0.05 0.0 0.0 0.0</pose>
+    <collision name="region_21_collision">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <surface>
+        <friction>
+          <ode>
+            <mu>0.8</mu>
+            <mu2>0.8</mu2>
+          </ode>
+        </friction>
+      </surface>
+    </collision>
+    <visual name="region_21_visual">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <material>
+        <ambient>0.0 0.8349788162178775 0.9621653498159959 1.0</ambient>
+        <diffuse>0.0 0.8349788162178775 0.9621653498159959 1.0</diffuse>
+      </material>
+    </visual>
+  </link>
+  <link name="region_22">
+    <pose>1.1 0.6 0.05 0.0 0.0 0.0</pose>
+    <collision name="region_22_collision">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <surface>
+        <friction>
+          <ode>
+            <mu>0.8</mu>
+            <mu2>0.8</mu2>
+          </ode>
+        </friction>
+      </surface>
+    </collision>
+    <visual name="region_22_visual">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <material>
+        <ambient>0.0 0.6597381554667906 0.6457283425033264 1.0</ambient>
+        <diffuse>0.0 0.6597381554667906 0.6457283425033264 1.0</diffuse>
+      </material>
+    </visual>
+  </link>
+  <link name="region_23">
+    <pose>1.4 0.6 0.05 0.0 0.0 0.0</pose>
+    <collision name="region_23_collision">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <surface>
+        <friction>
+          <ode>
+            <mu>0.8</mu>
+            <mu2>0.8</mu2>
+          </ode>
+        </friction>
+      </surface>
+    </collision>
+    <visual name="region_23_visual">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <material>
+        <ambient>0.0 0.9732779111814016 0.9285952794159718 1.0</ambient>
+        <diffuse>0.0 0.9732779111814016 0.9285952794159718 1.0</diffuse>
+      </material>
+    </visual>
+  </link>
+  <link name="region_24">
+    <pose>1.7 0.6 0.05 0.0 0.0 0.0</pose>
+    <collision name="region_24_collision">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <surface>
+        <friction>
+          <ode>
+            <mu>0.8</mu>
+            <mu2>0.8</mu2>
+          </ode>
+        </friction>
+      </surface>
+    </collision>
+    <visual name="region_24_visual">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <material>
+        <ambient>0.0 0.9500517498284913 0.9599324354811617 1.0</ambient>
+        <diffuse>0.0 0.9500517498284913 0.9599324354811617 1.0</diffuse>
+      </material>
+    </visual>
+  </link>
+  <link name="region_25">
+    <pose>0.65 0.75 0.05 0.0 0.0 0.0</pose>
+    <collision name="region_25_collision">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <surface>
+        <friction>
+          <ode>
+            <mu>0.8</mu>
+            <mu2>0.8</mu2>
+          </ode>
+        </friction>
+      </surface>
+    </collision>
+    <visual name="region_25_visual">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <material>
+        <ambient>0.0 0.8054035277522047 0.7998095941986689 1.0</ambient>
+        <diffuse>0.0 0.8054035277522047 0.7998095941986689 1.0</diffuse>
+      </material>
+    </visual>
+  </link>
+  <link name="region_26">
+    <pose>0.95 0.75 0.05 0.0 0.0 0.0</pose>
+    <collision name="region_26_collision">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <surface>
+        <friction>
+          <ode>
+            <mu>0.8</mu>
+            <mu2>0.8</mu2>
+          </ode>
+        </friction>
+      </surface>
+    </collision>
+    <visual name="region_26_visual">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <material>
+        <ambient>0.0 0.9003671171077637 0.9557170250666596 1.0</ambient>
+        <diffuse>0.0 0.9003671171077637 0.9557170250666596 1.0</diffuse>
+      </material>
+    </visual>
+  </link>
+  <link name="region_27">
+    <pose>1.25 0.75 0.05 0.0 0.0 0.0</pose>
+    <collision name="region_27_collision">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <surface>
+        <friction>
+          <ode>
+            <mu>0.8</mu>
+            <mu2>0.8</mu2>
+          </ode>
+        </friction>
+      </surface>
+    </collision>
+    <visual name="region_27_visual">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <material>
+        <ambient>0.0 0.6887203911803224 0.7014236050863367 1.0</ambient>
+        <diffuse>0.0 0.6887203911803224 0.7014236050863367 1.0</diffuse>
+      </material>
+    </visual>
+  </link>
+  <link name="region_28">
+    <pose>1.55 0.75 0.05 0.0 0.0 0.0</pose>
+    <collision name="region_28_collision">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <surface>
+        <friction>
+          <ode>
+            <mu>0.8</mu>
+            <mu2>0.8</mu2>
+          </ode>
+        </friction>
+      </surface>
+    </collision>
+    <visual name="region_28_visual">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <material>
+        <ambient>0.0 0.7095074137418753 0.8239795866696307 1.0</ambient>
+        <diffuse>0.0 0.7095074137418753 0.8239795866696307 1.0</diffuse>
+      </material>
+    </visual>
+  </link>
+  <link name="region_29">
+    <pose>1.8499999999999999 0.75 0.05 0.0 0.0 0.0</pose>
+    <collision name="region_29_collision">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <surface>
+        <friction>
+          <ode>
+            <mu>0.8</mu>
+            <mu2>0.8</mu2>
+          </ode>
+        </friction>
+      </surface>
+    </collision>
+    <visual name="region_29_visual">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <material>
+        <ambient>0.0 0.8892367169296723 0.5677175672838054 1.0</ambient>
+        <diffuse>0.0 0.8892367169296723 0.5677175672838054 1.0</diffuse>
+      </material>
+    </visual>
+  </link>
+  <link name="region_30">
+    <pose>0.5 0.9 0.05 0.0 0.0 0.0</pose>
+    <collision name="region_30_collision">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <surface>
+        <friction>
+          <ode>
+            <mu>0.8</mu>
+            <mu2>0.8</mu2>
+          </ode>
+        </friction>
+      </surface>
+    </collision>
+    <visual name="region_30_visual">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <material>
+        <ambient>0.0 0.5958553861277779 0.7012945739479823 1.0</ambient>
+        <diffuse>0.0 0.5958553861277779 0.7012945739479823 1.0</diffuse>
+      </material>
+    </visual>
+  </link>
+  <link name="region_31">
+    <pose>0.8 0.9 0.05 0.0 0.0 0.0</pose>
+    <collision name="region_31_collision">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <surface>
+        <friction>
+          <ode>
+            <mu>0.8</mu>
+            <mu2>0.8</mu2>
+          </ode>
+        </friction>
+      </surface>
+    </collision>
+    <visual name="region_31_visual">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <material>
+        <ambient>0.0 0.5547427106657594 0.9653380071909432 1.0</ambient>
+        <diffuse>0.0 0.5547427106657594 0.9653380071909432 1.0</diffuse>
+      </material>
+    </visual>
+  </link>
+  <link name="region_32">
+    <pose>1.1 0.9 0.05 0.0 0.0 0.0</pose>
+    <collision name="region_32_collision">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <surface>
+        <friction>
+          <ode>
+            <mu>0.8</mu>
+            <mu2>0.8</mu2>
+          </ode>
+        </friction>
+      </surface>
+    </collision>
+    <visual name="region_32_visual">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <material>
+        <ambient>0.0 0.6450609682939136 0.8132646959612851 1.0</ambient>
+        <diffuse>0.0 0.6450609682939136 0.8132646959612851 1.0</diffuse>
+      </material>
+    </visual>
+  </link>
+  <link name="region_33">
+    <pose>1.4 0.9 0.05 0.0 0.0 0.0</pose>
+    <collision name="region_33_collision">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <surface>
+        <friction>
+          <ode>
+            <mu>0.8</mu>
+            <mu2>0.8</mu2>
+          </ode>
+        </friction>
+      </surface>
+    </collision>
+    <visual name="region_33_visual">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <material>
+        <ambient>0.0 0.6777214624005113 0.6673620387383863 1.0</ambient>
+        <diffuse>0.0 0.6777214624005113 0.6673620387383863 1.0</diffuse>
+      </material>
+    </visual>
+  </link>
+  <link name="region_34">
+    <pose>1.7 0.9 0.05 0.0 0.0 0.0</pose>
+    <collision name="region_34_collision">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <surface>
+        <friction>
+          <ode>
+            <mu>0.8</mu>
+            <mu2>0.8</mu2>
+          </ode>
+        </friction>
+      </surface>
+    </collision>
+    <visual name="region_34_visual">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <material>
+        <ambient>0.0 0.5052192010473606 0.7987294023195617 1.0</ambient>
+        <diffuse>0.0 0.5052192010473606 0.7987294023195617 1.0</diffuse>
+      </material>
+    </visual>
+  </link>
+  <link name="region_35">
+    <pose>0.65 1.05 0.05 0.0 0.0 0.0</pose>
+    <collision name="region_35_collision">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <surface>
+        <friction>
+          <ode>
+            <mu>0.8</mu>
+            <mu2>0.8</mu2>
+          </ode>
+        </friction>
+      </surface>
+    </collision>
+    <visual name="region_35_visual">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <material>
+        <ambient>0.0 0.9563919970854122 0.5849491304659428 1.0</ambient>
+        <diffuse>0.0 0.9563919970854122 0.5849491304659428 1.0</diffuse>
+      </material>
+    </visual>
+  </link>
+  <link name="region_36">
+    <pose>0.95 1.05 0.05 0.0 0.0 0.0</pose>
+    <collision name="region_36_collision">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <surface>
+        <friction>
+          <ode>
+            <mu>0.8</mu>
+            <mu2>0.8</mu2>
+          </ode>
+        </friction>
+      </surface>
+    </collision>
+    <visual name="region_36_visual">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <material>
+        <ambient>0.0 0.7454774849124914 0.7719717047842568 1.0</ambient>
+        <diffuse>0.0 0.7454774849124914 0.7719717047842568 1.0</diffuse>
+      </material>
+    </visual>
+  </link>
+  <link name="region_37">
+    <pose>1.25 1.05 0.05 0.0 0.0 0.0</pose>
+    <collision name="region_37_collision">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <surface>
+        <friction>
+          <ode>
+            <mu>0.8</mu>
+            <mu2>0.8</mu2>
+          </ode>
+        </friction>
+      </surface>
+    </collision>
+    <visual name="region_37_visual">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <material>
+        <ambient>0.0 0.8218665078826013 0.8296716753573353 1.0</ambient>
+        <diffuse>0.0 0.8218665078826013 0.8296716753573353 1.0</diffuse>
+      </material>
+    </visual>
+  </link>
+  <link name="region_38">
+    <pose>1.55 1.05 0.05 0.0 0.0 0.0</pose>
+    <collision name="region_38_collision">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <surface>
+        <friction>
+          <ode>
+            <mu>0.8</mu>
+            <mu2>0.8</mu2>
+          </ode>
+        </friction>
+      </surface>
+    </collision>
+    <visual name="region_38_visual">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <material>
+        <ambient>0.0 0.8207237978078082 0.6491155146158184 1.0</ambient>
+        <diffuse>0.0 0.8207237978078082 0.6491155146158184 1.0</diffuse>
+      </material>
+    </visual>
+  </link>
+  <link name="region_39">
+    <pose>1.8499999999999999 1.05 0.05 0.0 0.0 0.0</pose>
+    <collision name="region_39_collision">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <surface>
+        <friction>
+          <ode>
+            <mu>0.8</mu>
+            <mu2>0.8</mu2>
+          </ode>
+        </friction>
+      </surface>
+    </collision>
+    <visual name="region_39_visual">
+      <geometry>
+        <box>
+          <size>0.15 0.15 0.1</size>
+        </box>
+      </geometry>
+      <material>
+        <ambient>0.0 0.6722974701399591 0.6717225003256375 1.0</ambient>
+        <diffuse>0.0 0.6722974701399591 0.6717225003256375 1.0</diffuse>
+      </material>
+    </visual>
+  </link>
+</model>
+  </world>
+</sdf>

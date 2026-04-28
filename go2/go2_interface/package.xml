@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>go2_interface</name>
+  <version>0.0.0</version>
+  <description>The go2_interface package for both simulation and hardware</description>
+
+  <maintainer email="mass@gatech.edu">Max Asselmeier</maintainer>
+
+  <license>BSD</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <build_depend>cmake_clang_tools</build_depend>
+
+  <depend>unitree_api</depend>
+  <depend>unitree_go</depend>  
+  <depend>go2_system</depend>
+  <depend>go2_interface_msgs</depend>
+  <depend>go2_estimators</depend>
+
+  <export>                               
+   <build_type>ament_cmake</build_type>
+  </export>
+
+</package>

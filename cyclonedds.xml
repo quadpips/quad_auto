@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<CycloneDDS xmlns="https://cdds.io/config" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://cdds.io/config https://raw.githubusercontent.com/eclipse-cyclonedds/cyclonedds/master/etc/cyclonedds.xsd">
+    <Domain>
+        <General>
+            <Interfaces>
+                <NetworkInterface name="enp128s31f6" priority="0" />
+                <!-- <NetworkInterface name="lo" priority="1" /> -->
+            </Interfaces>
+            <AllowMulticast>spdp</AllowMulticast>
+        </General>  
+        <Discovery>
+            <ParticipantIndex>auto</ParticipantIndex>
+            <MaxAutoParticipantIndex>32</MaxAutoParticipantIndex>
+            <Peers>
+            </Peers>
+        </Discovery>             
+    </Domain>
+
+</CycloneDDS>

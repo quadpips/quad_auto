@@ -1,0 +1,311 @@
+Rough breakdown of instructions/callback for main functions:
+
+update:
+  propagateHistory: 45M
+    transformPoints: 42.4M
+      matrixmultiply: 37.5M
+      matrixadd: 5M
+    atan2f:         6M
+    
+  addDepthImage: 49M
+    atan2f: 118 *points 6M
+  
+  allocating new mat: 5.5M
+
+getPropagatedPointCloud: 35M
+  Adding points to vector: 500K * ? (30%)
+  toROSMsg: 3.2M (9%)
+
+
+
+#Typical output after initial round of optimizations:
+[ INFO] [1521582366.935316124, 5509.993000000]: Propagation took 24.5433ms
+[ INFO] [1521582366.947765808, 5509.995000000]: Adding depth image took 12.3734ms
+[ INFO] [1521582366.967823061, 5509.998000000]: Generating point cloud took 19.9525ms
+[ INFO] [1521582366.982588769, 5510.000000000]: Generating egocylindrical image took 12.2476ms
+
+[ INFO] [1521583627.001020734, 5698.890000000]: Propagation took 24.7622ms
+[ INFO] [1521583627.013967108, 5698.892000000]: Adding depth image took 12.8538ms
+[ INFO] [1521583627.024550599, 5698.894000000]: Generating point cloud took 10.4864ms
+[ INFO] [1521583627.041647224, 5698.896000000]: Generating egocylindrical image took 15.4756ms
+
+[ INFO] [1521585556.571533110, 5986.444000000]: Propagation took 24.9686ms
+[ INFO] [1521585556.584433386, 5986.446000000]: Adding depth image took 12.8123ms
+[ INFO] [1521585556.599856891, 5986.449000000]: Generating point cloud took 15.3213ms
+[ INFO] [1521585556.614561254, 5986.451000000]: Generating egocylindrical image took 12.9162ms
+
+
+#Switched to 'remapDepthImage', much faster
+[ INFO] [1521597444.338934213, 16593.154000000]: Adding depth image took 3.14386ms
+
+
+
+#Succeeded in writing vectorized 'transform_impl' (inplace)
+cost model: Adding cost of checks for loop versioning aliasing.
+cost model: prologue peel iters set to vf/2.
+cost model: epilogue peel iters set to vf/2 because peeling for alignment is unknown.
+Cost model analysis: 
+  Vector inside of loop cost: 55
+  Vector prologue cost: 179
+  Vector epilogue cost: 164
+  Scalar iteration cost: 40
+  Scalar outside cost: 1
+  Vector outside cost: 343
+  prologue iterations: 4
+  epilogue iterations: 4
+  Calculated minimum iters for profitability: 9
+  
+
+note:   Runtime profitability threshold = 8
+note:   Static estimate profitability threshold = 8
+note: epilog loop required
+
+note: created 6 versioning for alias checks.
+note: loop versioned for vectorization because of possible aliasing
+
+
+#Added non-inplace 'transform_impl2'; it takes much longer
+
+[ INFO] [1521657957.349649903, 5476.444000000]: Transform2 function took 6.96473ms
+[ INFO] [1521657957.350795087, 5476.444000000]: Transform function took 1.06356ms
+[ INFO] [1521657957.350856061, 5476.444000000]: Transform points took 8.25885ms
+[ INFO] [1521657957.358938950, 5476.445000000]: Inserting transformed points took 8.01626ms
+[ INFO] [1521657957.359002675, 5476.445000000]: Propagation took 22.6847ms
+[ INFO] [1521657957.361901909, 5476.446000000]: Adding depth image took 2.85603ms
+[ INFO] [1521657957.379305403, 5476.448000000]: Generating point cloud took 17.3068ms
+
+#Discovered that 'transform_impl2' was not vectorized:
+note: number of versioning for alias run-time tests exceeds 10 (--param vect-max-version-for-alias-checks)
+
+
+#Unable to resolve aliasing issue until used  #gragma GCC ivdep; not ideal since this will be my only GCC pragma in all of my code, but all our systems use GCC, so probably OK. Can't hurt I guess. OpenMP does not have something comparable, apparently.
+
+#Inplace version:
+  Vector inside of loop cost: 55
+  Vector prologue cost: 170
+  Vector epilogue cost: 164
+  Scalar iteration cost: 40
+  Scalar outside cost: 7
+  Vector outside cost: 334
+  prologue iterations: 4
+  epilogue iterations: 4
+  Calculated minimum iters for profitability: 9
+  
+  
+Non in place version:
+  Vector inside of loop cost: 60
+  Vector prologue cost: 178
+  Vector epilogue cost: 172
+  Scalar iteration cost: 42
+  Scalar outside cost: 7
+  Vector outside cost: 350
+  prologue iterations: 4
+  epilogue iterations: 4
+  Calculated minimum iters for profitability: 9
+/home/justin/catkin_ws/src/egocylindrical/include/egocylindrical/utils.h:181:25: note:   Runtime profitability threshold = 8
+/home/justin/catkin_ws/src/egocylindrical/include/egocylindrical/utils.h:181:25: note:   Static estimate profitability threshold = 8
+
+
+
+#Current status: Note the apparent increase in 'time to insert points'; the time starts at ~10ms but increases as the image fills in. I will need to run tests with older versions to verify that nothing was worsened here.
+[ INFO] [1521670587.938434329, 7368.643000000]: Finding transform took 0.084348ms
+[ INFO] [1521670587.940859409, 7368.643000000]: Transform points took 2.30191ms
+[ INFO] [1521670587.966635922, 7368.647000000]: Inserting transformed points took 25.6567ms
+[ INFO] [1521670587.966718341, 7368.647000000]: Propagation took 30.9188ms
+[ INFO] [1521670587.969362968, 7368.647000000]: Adding depth image took 2.59407ms
+[ INFO] [1521670587.982072951, 7368.649000000]: Generating point cloud took 12.6191ms
+[ INFO] [1521670588.009390747, 7368.653000000]: Generating egocylindrical image took 19.1573ms
+
+
+
+Analysis of (non-default) flags enabled by fast math:
+
+-ffast-math:
+Sets the options -fno-math-errno, -funsafe-math-optimizations, -ffinite-math-only, -fcx-limited-range and -fexcess-precision=fast.
+
+-fno-math-errno:
+Do not set errno after calling math functions that are executed with a single instruction, e.g., sqrt. A program that relies on IEEE exceptions for math error handling may want to use this flag for speed while maintaining IEEE arithmetic compatibility.
+
+-funsafe-math-optimizations:
+Enables -fno-signed-zeros, -fno-trapping-math, -fassociative-math and -freciprocal-math.
+
+-ffinite-math-only:
+Allow optimizations for floating-point arithmetic that assume that arguments and results are not NaNs or +-Infs.
+
+-fno-signed-zeros:
+Allow optimizations for floating-point arithmetic that ignore the signedness of zero.
+
+-fno-trapping-math
+Compile code assuming that floating-point operations cannot generate user-visible traps. These traps include division by zero, overflow, underflow, inexact result and invalid operation. Setting this option may allow faster code if one relies on “non-stop” IEEE arithmetic, for example.
+
+-fcx-limited-range
+When enabled, this option states that a range reduction step is not needed when performing complex division. Also, there is no checking whether the result of a complex multiplication or division is NaN + I*NaN, with an attempt to rescue the situation in that case.
+
+
+#I have determined that the issue with vectorizing is the sqrt call. I know that it supports auto-vectorizing. Various sources have suggested -fno-math-errno or?
+
+Attempts:
+1. std::sqrt(cyl_ptr[j]*cyl_ptr[j] + cyl_ptr[num_cols*2 + j]*cyl_ptr[num_cols*2 + j]); //No: loop contains function calls or data references that cannot be analyzed
+2. cyl_ptr[j]*cyl_ptr[j] + cyl_ptr[num_cols*2 + j]*cyl_ptr[num_cols*2 + j]; //Yes
+3. (2) in separate function //yes
+3. with condition 'if(cyl_ptr[j]==cyl_ptr[j])': //no: control condition in loop
+4. (1) in separate function with '-ffast-math': //yes!
+5. (1) in separate function with '-funsafe-math-optimizations -ffinite-math-only -fno-math-errno': //yes!
+6. (1) in separate function with '-ffinite-math-only -fno-math-errno': //yes!
+
+I tried using gcc optimize pragmas and attributes with no success; I suspect they only support the literal levels of optimization? In any case, success came after separating relevant functions into separate compilation unit.
+It was totally worth it:
+[ INFO] [1521758095.180600852, 30598.515000000]: Finding transform took 0.043172ms
+[ INFO] [1521758095.181949186, 30598.516000000]: Transform points took 1.25127ms
+[ INFO] [1521758095.198384165, 30598.533000000]: Inserting transformed points took 16.3547ms
+[ INFO] [1521758095.198438813, 30598.533000000]: Propagation took 24.7415ms
+[ INFO] [1521758095.202876282, 30598.533000000]: Adding depth image took 4.38962ms
+[ INFO] [1521758095.218924505, 30598.552000000]: Generating point cloud took 15.9708ms
+[ INFO] [1521758095.226998667, 30598.553000000]: Generating egocylindrical image took 1.56043ms
+
+
+
+cost model: prologue peel iters set to vf/2.
+cost model: epilogue peel iters set to vf/2 because peeling for alignment is unknown.
+/home/justin/catkin_ws/src/egocylindrical/src/generate_range_image.cpp:34:26: note: Cost model analysis: 
+  Vector inside of loop cost: 9
+  Vector prologue cost: 32
+  Vector epilogue cost: 32
+  Scalar iteration cost: 7
+  Scalar outside cost: 7
+  Vector outside cost: 64
+  prologue iterations: 4
+  epilogue iterations: 4
+  Calculated minimum iters for profitability: 9
+/home/justin/catkin_ws/src/egocylindrical/src/generate_range_image.cpp:34:26: note:   Runtime profitability threshold = 8
+/home/justin/catkin_ws/src/egocylindrical/src/generate_range_image.cpp:34:26: note:   Static estimate profitability threshold = 8
+
+cost model: prologue peel iters set to vf/2.
+cost model: epilogue peel iters set to vf/2 because peeling for alignment is unknown.
+/home/justin/catkin_ws/src/egocylindrical/src/transform_points.cpp:30:29: note: Cost model analysis: 
+  Vector inside of loop cost: 28
+  Vector prologue cost: 112
+  Vector epilogue cost: 100
+  Scalar iteration cost: 24
+  Scalar outside cost: 7
+  Vector outside cost: 212
+  prologue iterations: 4
+  epilogue iterations: 4
+  Calculated minimum iters for profitability: 9
+/home/justin/catkin_ws/src/egocylindrical/src/transform_points.cpp:30:29: note:   Runtime profitability threshold = 8
+/home/justin/catkin_ws/src/egocylindrical/src/transform_points.cpp:30:29: note:   Static estimate profitability threshold = 8
+
+
+
+#After ensuring alignment:
+
+/home/justin/catkin_ws/src/egocylindrical/src/generate_range_image.cpp:33:26: note: Cost model analysis: 
+  Vector inside of loop cost: 8
+  Vector prologue cost: 6
+  Vector epilogue cost: 28
+  Scalar iteration cost: 7
+  Scalar outside cost: 6
+  Vector outside cost: 34
+  prologue iterations: 0
+  epilogue iterations: 4
+  Calculated minimum iters for profitability: 5
+/home/justin/catkin_ws/src/egocylindrical/src/generate_range_image.cpp:33:26: note:   Runtime profitability threshold = 7
+/home/justin/catkin_ws/src/egocylindrical/src/generate_range_image.cpp:33:26: note:   Static estimate profitability threshold = 7
+
+/home/justin/catkin_ws/src/egocylindrical/src/transform_points.cpp:35:29: note: cost model: epilogue peel iters set to vf/2 because loop iterations are unknown .
+/home/justin/catkin_ws/src/egocylindrical/src/transform_points.cpp:35:29: note: Cost model analysis: 
+  Vector inside of loop cost: 28
+  Vector prologue cost: 18
+  Vector epilogue cost: 96
+  Scalar iteration cost: 24
+  Scalar outside cost: 6
+  Vector outside cost: 114
+  prologue iterations: 0
+  epilogue iterations: 4
+  Calculated minimum iters for profitability: 5
+/home/justin/catkin_ws/src/egocylindrical/src/transform_points.cpp:35:29: note:   Runtime profitability threshold = 7
+/home/justin/catkin_ws/src/egocylindrical/src/transform_points.cpp:35:29: note:   Static estimate profitability threshold = 7
+
+#Unfortunately, I don't think opencv guarantees data alignment is __BIGGEST_ALIGNMENT__; I got segfaults from generateRawRangeImage when I set it there. For now, reverting to 16 alignment (default), but will try to enforce this in the future
+
+
+
+#New plan is to separate the propagation from the visualization steps.
+#First step: introduce a wrapper class that all calls to data go through. Succeeded with commit [c1fb9032ac170d2615c372f6ea38d59be83b87ef]. Result:
+[ INFO] [1521854636.164934191, 8496.031000000]: Finding transform took 0.037253ms
+[ INFO] [1521854636.166385381, 8496.033000000]: Transform points took 1.3703ms
+[ INFO] [1521854636.181491916, 8496.048000000]: Inserting transformed points took 15.0014ms
+[ INFO] [1521854636.181584775, 8496.048000000]: Propagation took 18.6628ms
+[ INFO] [1521854636.183968940, 8496.049000000]: Adding depth image took 2.35346ms
+[ INFO] [1521854636.195860794, 8496.062000000]: Generating point cloud took 11.8084ms
+[ INFO] [1521854636.205352241, 8496.070000000]: Generating egocylindrical image took 1.0615ms
+
+
+
+#Made quite a few updates/improvements. Unfortunately, it appears that I didn't test that everything was working after each one, and now propagation only partly works. I have confirmed that everything works in commit 7279729fbb5b350cb4036dee810d91c6968d9f55 and will work my way forward.
+c558be6a6bc976628ff710900b03c4290737ea8a: also good
+db4b5875f4ebbc6b03ccf40b7ce8f81e42eba2b7: this is the commit that broke things. Unfortunately, I did a lot in this one.
+Bug fixed in commit 2e454e2d8a17f6c315936c508dfa5006b5f1a011
+
+
+
+#templating 'worldToCylinder' to return the same precision point breaks vectorization. Below is an annotated analysis of the compiler's detailed vectorization output:
+
+projectWorldToCylinder:
+/home/justin/catkin_ws/src/egocylindrical/src/point_transformer.cpp:214:36: note: init: stmt relevant? _188 = __builtin_sqrtf (_54);  #std::sqrt(point.x * point.x + point.z * point.z);
+/home/justin/catkin_ws/src/egocylindrical/src/point_transformer.cpp:214:36: note: init: stmt relevant? _190 = _122 / _188;    #Pcyl_t.x 
+/home/justin/catkin_ws/src/egocylindrical/src/point_transformer.cpp:214:36: note: init: stmt relevant? _191 = _123 / _188;    #Pcyl_t.y 
+/home/justin/catkin_ws/src/egocylindrical/src/point_transformer.cpp:214:36: note: init: stmt relevant? _192 = _120 / _188;    #Pcyl_t.z 
+
+atan2_approximate:
+/home/justin/catkin_ws/src/egocylindrical/src/point_transformer.cpp:214:36: note: init: stmt relevant? _166 = ABS_EXPR <_190>;
+/home/justin/catkin_ws/src/egocylindrical/src/point_transformer.cpp:214:36: note: init: stmt relevant? abs_y_167 = _166 + 1.00000001335143196001808973960578441619873046875e-10;
+/home/justin/catkin_ws/src/egocylindrical/src/point_transformer.cpp:214:36: note: init: stmt relevant? _168 = abs_y_167 + _192;
+/home/justin/catkin_ws/src/egocylindrical/src/point_transformer.cpp:214:36: note: init: stmt relevant? _169 = abs_y_167 - _192;
+/home/justin/catkin_ws/src/egocylindrical/src/point_transformer.cpp:214:36: note: init: stmt relevant? r_170 = _168 / _169;
+/home/justin/catkin_ws/src/egocylindrical/src/point_transformer.cpp:214:36: note: init: stmt relevant? _171 = _192 - abs_y_167;
+/home/justin/catkin_ws/src/egocylindrical/src/point_transformer.cpp:214:36: note: init: stmt relevant? _172 = abs_y_167 + _192;
+/home/justin/catkin_ws/src/egocylindrical/src/point_transformer.cpp:214:36: note: init: stmt relevant? r_173 = _171 / _172;
+/home/justin/catkin_ws/src/egocylindrical/src/point_transformer.cpp:214:36: note: init: stmt relevant? r_174 = _192 < 0.0 ? r_170 : r_173;
+/home/justin/catkin_ws/src/egocylindrical/src/point_transformer.cpp:214:36: note: init: stmt relevant? angle_179 = _192 < 0.0 ? 2.35619449615478515625e+0 : 7.85398185253143310546875e-1;
+/home/justin/catkin_ws/src/egocylindrical/src/point_transformer.cpp:214:36: note: init: stmt relevant? powmult_258 = r_174 * r_174;
+/home/justin/catkin_ws/src/egocylindrical/src/point_transformer.cpp:214:36: note: init: stmt relevant? _176 = powmult_258 * 1.962999999523162841796875e-1;
+/home/justin/catkin_ws/src/egocylindrical/src/point_transformer.cpp:214:36: note: init: stmt relevant? _177 = _176 - 9.81700003147125244140625e-1;
+/home/justin/catkin_ws/src/egocylindrical/src/point_transformer.cpp:214:36: note: init: stmt relevant? _178 = r_174 * _177;
+/home/justin/catkin_ws/src/egocylindrical/src/point_transformer.cpp:214:36: note: init: stmt relevant? angle_180 = _178 + angle_179;
+/home/justin/catkin_ws/src/egocylindrical/src/point_transformer.cpp:214:36: note: init: stmt relevant? _181 = -angle_180;
+/home/justin/catkin_ws/src/egocylindrical/src/point_transformer.cpp:214:36: note: init: stmt relevant? _182 = _190 < 0.0 ? _181 : angle_180;    #atan2_approximate_result
+
+
+/home/justin/catkin_ws/src/egocylindrical/src/point_transformer.cpp:214:36: note: init: stmt relevant? _144 = MEM[(float *)pretmp_415 + 84B]; #h_scale
+/home/justin/catkin_ws/src/egocylindrical/src/point_transformer.cpp:214:36: note: init: stmt relevant? _145 = MEM[(float *)pretmp_415 + 88B]; #v_scale
+/home/justin/catkin_ws/src/egocylindrical/src/point_transformer.cpp:214:36: note: init: stmt relevant? _157 = _144 * _182;    #x = h_scale * atan2_approximate_result
+/home/justin/catkin_ws/src/egocylindrical/src/point_transformer.cpp:214:36: note: init: stmt relevant? x_160 = _157 + pretmp_426; #x+= cyl_width/2
+/home/justin/catkin_ws/src/egocylindrical/src/point_transformer.cpp:214:36: note: init: stmt relevant? _162 = _145 * _191;  #y = v_scale * p_cyl.y
+/home/justin/catkin_ws/src/egocylindrical/src/point_transformer.cpp:214:36: note: init: stmt relevant? y_165 = _162 + pretmp_428;   #y+= cyl_height/2
+/home/justin/catkin_ws/src/egocylindrical/src/point_transformer.cpp:214:36: note: init: stmt relevant? p_cyl ={v} {CLOBBER};
+
+worldToCylindricalIdx(float x, float y, float z):
+/home/justin/catkin_ws/src/egocylindrical/src/point_transformer.cpp:214:36: note: init: stmt relevant? _147 = {y_165, 0.0, 0.0, 0.0};
+/home/justin/catkin_ws/src/egocylindrical/src/point_transformer.cpp:214:36: note: init: stmt relevant? _148 = __builtin_ia32_cvtss2si (_147);   #image_pnt.y = y ; converts float to signed double word integer
+/home/justin/catkin_ws/src/egocylindrical/src/point_transformer.cpp:214:36: note: init: stmt relevant? _150 = {x_160, 0.0, 0.0, 0.0};
+/home/justin/catkin_ws/src/egocylindrical/src/point_transformer.cpp:214:36: note: init: stmt relevant? _151 = __builtin_ia32_cvtss2si (_150);   #image_pnt.x = x
+/home/justin/catkin_ws/src/egocylindrical/src/point_transformer.cpp:214:36: note: init: stmt relevant? D.305612 ={v} {CLOBBER};
+/home/justin/catkin_ws/src/egocylindrical/src/point_transformer.cpp:214:36: note: init: stmt relevant? D.305613 ={v} {CLOBBER};
+/home/justin/catkin_ws/src/egocylindrical/src/point_transformer.cpp:214:36: note: init: stmt relevant? _153 = _148 * pretmp_423;  #tidx = image_pnt.y * getWidth()
+/home/justin/catkin_ws/src/egocylindrical/src/point_transformer.cpp:214:36: note: init: stmt relevant? idx_154 = _151 + _153;   #tidx += image_pnt.x
+/home/justin/catkin_ws/src/egocylindrical/src/point_transformer.cpp:214:36: note: init: stmt relevant? pretmp_435 = (long int) idx_154;
+/home/justin/catkin_ws/src/egocylindrical/src/point_transformer.cpp:214:36: note: init: stmt relevant? prephitmp_436 = num_cols_13 > idx_154 ? pretmp_435 : -1;
+
+/home/justin/catkin_ws/src/egocylindrical/src/point_transformer.cpp:214:36: note: init: phi relevant? p_183 = PHI <p_74(7), p_135(10)>
+/home/justin/catkin_ws/src/egocylindrical/src/point_transformer.cpp:214:36: note: init: phi relevant? .MEM_263 = PHI <.MEM_8(7), .MEM_134(10)>
+/home/justin/catkin_ws/src/egocylindrical/src/point_transformer.cpp:214:36: note: init: stmt relevant? p.74_78 = (long unsigned int) p_183;
+/home/justin/catkin_ws/src/egocylindrical/src/point_transformer.cpp:214:36: note: init: stmt relevant? _79 = p.74_78 * 4;     #inds*
+
+/home/justin/catkin_ws/src/egocylindrical/src/point_transformer.cpp:214:36: note: init: stmt relevant? _127 = p.74_78 * 8;        #pointer to ranges
+/home/justin/catkin_ws/src/egocylindrical/src/point_transformer.cpp:214:36: note: init: stmt relevant? _129 = pretmp_417 + _127;  #pointer to ranges[p]
+/home/justin/catkin_ws/src/egocylindrical/src/point_transformer.cpp:214:36: note: init: stmt relevant? *_129 = prephitmp_436;     #write range
+/home/justin/catkin_ws/src/egocylindrical/src/point_transformer.cpp:214:36: note: init: stmt relevant? _133 = pretmp_419 + _79;   #pointer to inds[p]
+/home/justin/catkin_ws/src/egocylindrical/src/point_transformer.cpp:214:36: note: init: stmt relevant? *_133 = _54;
+
+#So, the problem is the use of __builtin_ia32_cvtss2si to round

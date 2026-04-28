@@ -1,0 +1,58 @@
+[workspace]
+name = "quadpips"
+authors = ["Max Asselmeier <mass@gatech.edu>"]
+channels = ["robostack-staging", "conda-forge",  "robostack-humble"]
+description = "Development environment for RoboStack ROS packages"
+platforms = ["linux-64", "linux-aarch64"]
+version = "0.0.1"
+
+[target.unix.activation]
+# For activation scripts, we use bash for Unix-like systems
+scripts = ["../../install/setup.bash"]
+
+[dependencies]
+python = "*"
+
+###############
+# Build tools #
+###############
+compilers = "*"
+cmake = "*"
+pkg-config = "*"
+make = "*"
+ninja = "*"
+glpk="*"
+# eigen="3.4.0.*"
+# jsoncpp = ">=1.9.6,<2"
+
+# For plane segmentation
+cgal="*"
+
+# ROS specific tools
+rosdep = "*"
+colcon-common-extensions = "*"
+# QOL
+just="*"
+
+[feature.humble.dependencies]
+ros-humble-desktop = "*"
+gazebo = "*"
+ros-humble-camera-info-manager="*"
+# ros-humble-gazebo-ros = ">=3.9.0,<4"
+# ros-humble-gazebo-ros2-control = ">=0.4.10,<0.5"
+ros-humble-pcl-ros = ">=2.4.5,<3"
+ros-humble-xacro = "*"
+ros-humble-rosidl-generator-dds-idl="*"
+ros-humble-joint-state-broadcaster = ">=2.52.0,<3"
+ros-humble-hpp-fcl="*"
+ros-humble-pinocchio="*"
+ros-humble-control-toolbox="*"
+ros-humble-controller-manager="*"
+ros-humble-ros2-control="*"
+ros-humble-ros2-controllers="*"
+ros-humble-nav2-msgs="*"
+
+[environments]
+# solve-group is meant to be sure that for common
+# dependencies the version used by the two envs are the same
+default = ["humble"]

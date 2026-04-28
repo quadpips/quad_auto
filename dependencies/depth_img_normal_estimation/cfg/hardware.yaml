@@ -1,0 +1,15 @@
+# Parameters for bilateral filter applied during pre-processing. 
+# More information here: https://docs.opencv.org/4.x/d4/d86/group__imgproc__filter.html#ga9d7064d478c95d60003cf839430737ed
+bilateral_filter:
+  num_iters: 5
+  kernel_size: 9
+  sigma_color: 75.0
+  sigma_space: 75.0
+  
+# Parameters for the depth in-filling filter. Applied on hardware only.
+infill_filter:
+  kernel_size: 7
+
+# Max depth disparity between neighboring pixels to be considered for normal estimation.
+normal_estimation:
+  depth_threshold: 0.05

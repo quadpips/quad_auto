@@ -1,0 +1,34 @@
+<launch>
+
+    <arg name="env_prefix"                          default="flat"/>
+
+    <!-- The URDF model of the robot -->
+    <arg name="urdfFile"                                              default="$(find go2_description)/urdf/go2_simplified.urdf"/>
+
+    <!-- The frame file for the robot. -->
+    <arg name="frameFile"                                             default="$(find mmp_quadruped)/config/frame_declaration.info"/>
+
+    <!-- The task file for the mpc. -->
+    <arg name="taskFile"                                              default="$(find mmp_quadruped)/config/mpc/task.info"/>
+    <!-- <arg name="taskFile"                                              default="$(find ocs2_quadruped_ros)/config/mpc/task_go2.info"/> -->
+
+    <!-- The SQP configuration file. -->
+    <arg name="sqpFile"                                               default="$(find mmp_quadruped)/config/mpc/sqp.info"/>
+
+    <!-- The environment layout file -->
+    <arg name="envFile"                                               default="$(find mmp_quadruped)/config/environment/$(arg env_prefix).json" />
+
+    <param name="taskFile"                                            value="$(arg taskFile)"/>
+    <param name="urdfFile"                                            value="$(arg urdfFile)"/>
+    <param name="frameFile"                                           value="$(arg frameFile)" />
+    <param name="envFile"                                             value="$(arg envFile)" />
+    <param name="sqpFile"                                             value="$(arg sqpFile)"/>
+
+    <!-- Launch node -->
+    <node pkg="ocs2_go2_mpc" 
+            type="ocs2_go2_mpc_debugging_demo" 
+            name="ocs2_go2_mpc_debugging_demo"
+            output="screen" args="" launch-prefix="">
+    </node>
+
+</launch>

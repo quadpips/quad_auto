@@ -1,0 +1,374 @@
+<sdf version="1.7">
+  <world name="default">
+
+    <!-- Need to be able to manipulate model state -->
+    <plugin name="gazebo_ros_state" filename="libgazebo_ros_state.so">
+      <ros>
+        <namespace>/gazebo</namespace>
+      </ros>
+
+      <update_rate>1.0</update_rate>
+    </plugin>
+
+    <!-- Need to be able to manipulate model configuration -->
+    <plugin name="gazebo_ros_properties" filename="libgazebo_ros_properties.so">
+      <ros>
+        <namespace>/gazebo</namespace>
+      </ros>
+      
+      <update_rate>1.0</update_rate>
+    </plugin>
+
+    <physics type="ode">
+    <max_step_size>0.001</max_step_size>
+    <real_time_factor>1.0</real_time_factor>
+    <real_time_update_rate>1000</real_time_update_rate>
+    <gravity>0 0 -9.81</gravity>
+        <ode>
+            <solver>
+            <type>quick</type>  
+            <iters>50</iters> 
+            <sor>1.3</sor>
+            </solver>  
+            <constraints>
+            <cfm>0.0</cfm>
+            <erp>0.2</erp>
+            <contact_max_correcting_vel>10.0</contact_max_correcting_vel>
+            <contact_surface_layer>0.001</contact_surface_layer>
+            </constraints>  
+        </ode>
+    </physics>
+    
+    <!-- A global light source -->
+    <include>
+        <uri>model://sun</uri>
+    </include>
+    <!-- A ground plane -->
+    <include>
+        <uri>model://ground_plane</uri>
+    </include>    
+   
+    <model name="static_environment">
+  <static>true</static>
+  <link name="region_0">
+    <pose>0.0 0.0 0.025 0.0 0.0 0.0</pose>
+    <collision name="region_0_collision">
+      <geometry>
+        <box>
+          <size>0.2 3.0 0.05</size>
+        </box>
+      </geometry>
+      <surface>
+        <friction>
+          <ode>
+            <mu>1.0</mu>
+            <mu2>1.0</mu2>
+          </ode>
+        </friction>
+      </surface>
+    </collision>
+    <visual name="region_0_visual">
+      <geometry>
+        <box>
+          <size>0.2 3.0 0.05</size>
+        </box>
+      </geometry>
+      <material>
+        <ambient>1.0 1.0 1.0 1.0</ambient>
+        <diffuse>1.0 1.0 1.0 1.0</diffuse>
+      </material>
+    </visual>
+  </link>
+  <link name="region_1">
+    <pose>0.2 0.0 0.07500000000000001 0.0 0.0 0.0</pose>
+    <collision name="region_1_collision">
+      <geometry>
+        <box>
+          <size>0.2 3.0 0.05</size>
+        </box>
+      </geometry>
+      <surface>
+        <friction>
+          <ode>
+            <mu>1.0</mu>
+            <mu2>1.0</mu2>
+          </ode>
+        </friction>
+      </surface>
+    </collision>
+    <visual name="region_1_visual">
+      <geometry>
+        <box>
+          <size>0.2 3.0 0.05</size>
+        </box>
+      </geometry>
+      <material>
+        <ambient>1.0 1.0 1.0 1.0</ambient>
+        <diffuse>1.0 1.0 1.0 1.0</diffuse>
+      </material>
+    </visual>
+  </link>
+  <link name="region_2">
+    <pose>0.4 0.0 0.125 0.0 0.0 0.0</pose>
+    <collision name="region_2_collision">
+      <geometry>
+        <box>
+          <size>0.2 3.0 0.05</size>
+        </box>
+      </geometry>
+      <surface>
+        <friction>
+          <ode>
+            <mu>1.0</mu>
+            <mu2>1.0</mu2>
+          </ode>
+        </friction>
+      </surface>
+    </collision>
+    <visual name="region_2_visual">
+      <geometry>
+        <box>
+          <size>0.2 3.0 0.05</size>
+        </box>
+      </geometry>
+      <material>
+        <ambient>1.0 1.0 1.0 1.0</ambient>
+        <diffuse>1.0 1.0 1.0 1.0</diffuse>
+      </material>
+    </visual>
+  </link>
+  <link name="region_3">
+    <pose>0.6000000000000001 0.0 0.175 0.0 0.0 0.0</pose>
+    <collision name="region_3_collision">
+      <geometry>
+        <box>
+          <size>0.2 3.0 0.05</size>
+        </box>
+      </geometry>
+      <surface>
+        <friction>
+          <ode>
+            <mu>1.0</mu>
+            <mu2>1.0</mu2>
+          </ode>
+        </friction>
+      </surface>
+    </collision>
+    <visual name="region_3_visual">
+      <geometry>
+        <box>
+          <size>0.2 3.0 0.05</size>
+        </box>
+      </geometry>
+      <material>
+        <ambient>1.0 1.0 1.0 1.0</ambient>
+        <diffuse>1.0 1.0 1.0 1.0</diffuse>
+      </material>
+    </visual>
+  </link>
+  <link name="region_4">
+    <pose>0.8 0.0 0.22499999999999998 0.0 0.0 0.0</pose>
+    <collision name="region_4_collision">
+      <geometry>
+        <box>
+          <size>0.2 3.0 0.05</size>
+        </box>
+      </geometry>
+      <surface>
+        <friction>
+          <ode>
+            <mu>1.0</mu>
+            <mu2>1.0</mu2>
+          </ode>
+        </friction>
+      </surface>
+    </collision>
+    <visual name="region_4_visual">
+      <geometry>
+        <box>
+          <size>0.2 3.0 0.05</size>
+        </box>
+      </geometry>
+      <material>
+        <ambient>1.0 1.0 1.0 1.0</ambient>
+        <diffuse>1.0 1.0 1.0 1.0</diffuse>
+      </material>
+    </visual>
+  </link>
+  <link name="region_5">
+    <pose>1.0 0.0 0.27499999999999997 0.0 0.0 0.0</pose>
+    <collision name="region_5_collision">
+      <geometry>
+        <box>
+          <size>0.2 3.0 0.05</size>
+        </box>
+      </geometry>
+      <surface>
+        <friction>
+          <ode>
+            <mu>1.0</mu>
+            <mu2>1.0</mu2>
+          </ode>
+        </friction>
+      </surface>
+    </collision>
+    <visual name="region_5_visual">
+      <geometry>
+        <box>
+          <size>0.2 3.0 0.05</size>
+        </box>
+      </geometry>
+      <material>
+        <ambient>1.0 1.0 1.0 1.0</ambient>
+        <diffuse>1.0 1.0 1.0 1.0</diffuse>
+      </material>
+    </visual>
+  </link>
+  <link name="region_6">
+    <pose>1.2 0.0 0.32499999999999996 0.0 0.0 0.0</pose>
+    <collision name="region_6_collision">
+      <geometry>
+        <box>
+          <size>0.2 3.0 0.05</size>
+        </box>
+      </geometry>
+      <surface>
+        <friction>
+          <ode>
+            <mu>1.0</mu>
+            <mu2>1.0</mu2>
+          </ode>
+        </friction>
+      </surface>
+    </collision>
+    <visual name="region_6_visual">
+      <geometry>
+        <box>
+          <size>0.2 3.0 0.05</size>
+        </box>
+      </geometry>
+      <material>
+        <ambient>1.0 1.0 1.0 1.0</ambient>
+        <diffuse>1.0 1.0 1.0 1.0</diffuse>
+      </material>
+    </visual>
+  </link>
+  <link name="region_7">
+    <pose>1.4 0.0 0.37499999999999994 0.0 0.0 0.0</pose>
+    <collision name="region_7_collision">
+      <geometry>
+        <box>
+          <size>0.2 3.0 0.05</size>
+        </box>
+      </geometry>
+      <surface>
+        <friction>
+          <ode>
+            <mu>1.0</mu>
+            <mu2>1.0</mu2>
+          </ode>
+        </friction>
+      </surface>
+    </collision>
+    <visual name="region_7_visual">
+      <geometry>
+        <box>
+          <size>0.2 3.0 0.05</size>
+        </box>
+      </geometry>
+      <material>
+        <ambient>1.0 1.0 1.0 1.0</ambient>
+        <diffuse>1.0 1.0 1.0 1.0</diffuse>
+      </material>
+    </visual>
+  </link>
+  <link name="region_8">
+    <pose>1.5999999999999999 0.0 0.42499999999999993 0.0 0.0 0.0</pose>
+    <collision name="region_8_collision">
+      <geometry>
+        <box>
+          <size>0.2 3.0 0.05</size>
+        </box>
+      </geometry>
+      <surface>
+        <friction>
+          <ode>
+            <mu>1.0</mu>
+            <mu2>1.0</mu2>
+          </ode>
+        </friction>
+      </surface>
+    </collision>
+    <visual name="region_8_visual">
+      <geometry>
+        <box>
+          <size>0.2 3.0 0.05</size>
+        </box>
+      </geometry>
+      <material>
+        <ambient>1.0 1.0 1.0 1.0</ambient>
+        <diffuse>1.0 1.0 1.0 1.0</diffuse>
+      </material>
+    </visual>
+  </link>
+  <link name="region_9">
+    <pose>1.7999999999999998 0.0 0.4749999999999999 0.0 0.0 0.0</pose>
+    <collision name="region_9_collision">
+      <geometry>
+        <box>
+          <size>0.2 3.0 0.05</size>
+        </box>
+      </geometry>
+      <surface>
+        <friction>
+          <ode>
+            <mu>1.0</mu>
+            <mu2>1.0</mu2>
+          </ode>
+        </friction>
+      </surface>
+    </collision>
+    <visual name="region_9_visual">
+      <geometry>
+        <box>
+          <size>0.2 3.0 0.05</size>
+        </box>
+      </geometry>
+      <material>
+        <ambient>1.0 1.0 1.0 1.0</ambient>
+        <diffuse>1.0 1.0 1.0 1.0</diffuse>
+      </material>
+    </visual>
+  </link>
+  <link name="region_10">
+    <pose>3.4000000000000004 0.0 0.5 0.0 0.0 0.0</pose>
+    <collision name="region_10_collision">
+      <geometry>
+        <box>
+          <size>3.0 3.0 0.05</size>
+        </box>
+      </geometry>
+      <surface>
+        <friction>
+          <ode>
+            <mu>1.0</mu>
+            <mu2>1.0</mu2>
+          </ode>
+        </friction>
+      </surface>
+    </collision>
+    <visual name="region_10_visual">
+      <geometry>
+        <box>
+          <size>3.0 3.0 0.05</size>
+        </box>
+      </geometry>
+      <material>
+        <ambient>1.0 1.0 1.0 1.0</ambient>
+        <diffuse>1.0 1.0 1.0 1.0</diffuse>
+      </material>
+    </visual>
+  </link>
+</model>
+  </world>
+</sdf>

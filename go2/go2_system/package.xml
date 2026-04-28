@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>go2_system</name>
+  <version>0.0.0</version>
+  <description>The go2_system package for control and estimation</description>
+
+  <maintainer email="mass@gatech.edu">Max Asselmeier</maintainer>
+
+  <license>BSD</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <build_depend>cmake_clang_tools</build_depend>
+
+  <depend>angles</depend>
+  <depend>legged_utils</depend>
+  <depend>legged_common</depend>
+  <depend>ocs2_go2_mpc</depend>
+  <depend>unitree_go</depend>
+  <depend>go2_estimators</depend>
+  <depend>go2_wbc</depend>
+  
+  <export>                               
+   <build_type>ament_cmake</build_type>
+  </export>
+
+</package>

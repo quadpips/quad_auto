@@ -1,0 +1,157 @@
+<?xml version="1.0"?>
+
+<robot name="go2" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:arg name="DEBUG" default="false"/>
+
+    <xacro:include filename="$(find go2_description)/xacro/const.xacro"/>
+    <xacro:include filename="$(find go2_description)/xacro/materials.xacro"/>
+    <xacro:include filename="$(find go2_description)/xacro/leg.xacro"/>
+    <xacro:include filename="$(find go2_description)/xacro/gazebo.xacro"/>
+    <xacro:include filename="$(find go2_description)/xacro/imu.xacro"/>
+
+    <!-- Debug mode will hung up the robot, use "true" or "false" to switch it. -->
+    <xacro:if value="$(arg DEBUG)">
+        <link name="world"/>
+        <joint name="base_static_joint" type="fixed">
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <parent link="world"/>
+            <child link="base"/>
+        </joint>
+    </xacro:if> 
+
+    <link name="base">
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <geometry>
+                <box size="0.001 0.001 0.001"/>
+            </geometry>
+        </visual>
+    </link>
+
+    <joint name="floating_base" type="fixed">
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <parent link="base"/>
+        <child link="trunk"/>
+    </joint>
+
+    <link name="trunk">
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <geometry>
+                <mesh filename="file://$(find go2_description)/meshes/trunk.dae" scale="1 1 1"/>
+            </geometry>
+            <!-- <material name="orange"/> -->
+        </visual>
+        <collision>
+            <!-- <origin rpy="0 0 0" xyz="0 0 0"/> -->
+            <origin rpy="0 1.57079632679 0" xyz="0 0 0"/>
+            <geometry>
+                <!-- <box size="${trunk_length} ${trunk_width} ${trunk_height}"/> -->
+                <cylinder length="${trunk_length}" radius="${trunk_width}"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <origin rpy="0 0 0" xyz="${trunk_com_x} ${trunk_com_y} ${trunk_com_z}"/>
+            <mass value="${trunk_mass}"/>
+            <inertia
+                ixx="${trunk_ixx}" ixy="${trunk_ixy}" ixz="${trunk_ixz}"
+                iyy="${trunk_iyy}" iyz="${trunk_iyz}"
+                izz="${trunk_izz}"/>  
+        </inertial>
+    </link>
+
+    <xacro:imu />
+
+    <xacro:leg name="FL" mirror="1"  mirror_dae="True"   front_hind="1"  front_hind_dae="True"  />
+    <xacro:leg name="FR" mirror="-1" mirror_dae= "False" front_hind="1"  front_hind_dae="True"  />
+    <xacro:leg name="RL" mirror="1"  mirror_dae="True"   front_hind="-1" front_hind_dae="False" />
+    <xacro:leg name="RR" mirror="-1" mirror_dae="False"  front_hind="-1" front_hind_dae="False" />
+
+    <!-- RealSense D435 -->
+    <xacro:include filename="$(find go2_description)/xacro/_d435.urdf.xacro" />
+    <xacro:sensor_d435 parent="base" name="camera" topics_ns="camera">
+      <origin xyz="0.3 0 0.075" rpy="0.0 0.30 0.0" />
+    </xacro:sensor_d435>    
+
+    <joint name="rail_plate_joint" type="fixed">
+        <parent link="base"/>
+        <child link="rail_plate"/>
+        <origin rpy="0 0 ${PI/2.0}" xyz="0.225 -0.11 0.08"/>
+    </joint>
+
+    <link name="rail_plate">
+        <inertial>
+            <mass value="0.415"/>
+            <origin rpy="0 0 0" xyz="0.11 0.17 0.00317500"/>
+            <inertia ixx="0.00387786" ixy="0" ixz="0" iyy="0.00104948" iyz="0.00003381" izz="0.00491619"/>
+        </inertial>
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <geometry>
+                <mesh filename="file://$(find go2_description)/dae/rail_plate_2.dae" scale="0.001 0.001 0.001"/>
+            </geometry>
+        </visual>
+    </link>
+
+    <joint name="battery_plate_joint" type="fixed">
+        <parent link="base"/>
+        <child link="battery_plate"/>
+        <origin rpy="0 0 0" xyz="-0.11 -0.095 0.085"/>
+    </joint>
+
+    <link name="battery_plate">
+        <inertial>
+            <mass value="0.101"/>
+            <origin rpy="0 0 0" xyz="0.09 0.09 0.00166818"/>
+            <inertia ixx="0.00031386" ixy="0" ixz="0" iyy="0.00023085" iyz="0" izz="0.00054096"/>
+        </inertial>
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <geometry>
+                <mesh filename="file://$(find go2_description)/dae/battery_plate.dae" scale="0.001 0.001 0.001"/>
+            </geometry>
+        </visual>
+    </link>
+
+    <joint name="minipc_joint" type="fixed">
+        <parent link="base"/>
+        <child link="minipc"/>
+        <origin rpy="0 0 0" xyz="0.08 -0.07 0.0875"/>
+    </joint>
+
+    <link name="minipc">
+        <inertial>
+            <mass value="0.696"/>
+            <origin rpy="0 0 0" xyz="0.07 0.07 0.03330388"/>
+            <inertia ixx="0.0009" ixy="0" ixz="0" iyy="0.0009" iyz="0" izz="0.0015"/>
+        </inertial>
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <geometry>
+                <mesh filename="file://$(find go2_description)/dae/minipc.dae" scale="0.001 0.001 0.001"/>
+            </geometry>
+        </visual>
+    </link>
+
+    <joint name="battery_joint" type="fixed">
+        <parent link="base"/>
+        <child link="battery"/>
+        <origin rpy="0 0 ${PI/2.0}" xyz="0.05 -0.07 0.0875"/>
+    </joint>
+
+    <link name="battery">
+        <inertial>
+            <mass value="1.925"/>
+            <origin rpy="0 0 0" xyz="0.075 0.075 0.0304800"/>
+            <inertia ixx="0.00530954" ixy="0" ixz="0" iyy="0.00296510" iyz="0" izz="0.00756096"/>
+        </inertial>
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <geometry>
+                <mesh filename="file://$(find go2_description)/dae/battery.dae" scale="0.001 0.001 0.001"/>
+            </geometry>
+        </visual>
+    </link>
+
+</robot>

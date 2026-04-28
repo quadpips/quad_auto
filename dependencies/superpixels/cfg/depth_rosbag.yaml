@@ -1,0 +1,64 @@
+superpixel_depth_segmentation_node:
+  ros__parameters:
+    # Flag for if we are using simulated time 
+    use_sim_time: false
+
+    # Topic for incoming floor depth image
+    depth_image_topic: /floor_image
+
+    # Topic for incoming floor normal image
+    normal_image_topic: /floor_normals
+
+    # Width and height of incoming floor images
+    k_c: 256
+
+    # Vertical FOV for egocan 
+    v_fov: 60.0
+
+    # Vertical offset of egocan
+    v_offset: 0.0
+
+    # Number of dilation iterations to apply to floor image
+    num_dilation_iterations: 0
+
+    # Kernel radius for dilation filter
+    kernel_radius: 1
+
+    # Number of SLIC iterations
+    num_iterations: 5
+
+    # Rough number of superpixels to generate over image
+    num_superpixels: 150
+
+    # Flag for warm-starting superpixel regions 
+    warm_start: false
+
+    # Flag for applying distance and normal constraints during superpixel assignment
+    constraint: false
+
+    # Flag for refining normals with RANSAC plane fitting
+    ransac: true
+
+    # Flag for snapping superpixel centroids to populated pixels in image
+    snapping: false
+
+    # Weighting term for normal distance term
+    w_normal: 1.0
+
+    # Weighting term for plane distance term
+    w_plane_dist: 1.0
+
+    # Weighting term for world distance term
+    w_world_dist: 1.0
+
+    # Weighting term for pixel compactness term
+    w_compact: 3.0
+
+    # RANSAC number of iterations
+    ransac_K: 10
+
+    # RANSAC number of samples per iteration
+    ransac_N: 25
+
+    # RANSAC inlier threshold
+    ransac_T: 0.01

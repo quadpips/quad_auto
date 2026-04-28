@@ -1,0 +1,65 @@
+1. Pause Gazebo
+
+2. Enter the following in the terminal
+
+rosservice call /gazebo/set_model_configuration "model_name: 'go1_gazebo'
+urdf_param_name: 'robot_description'
+joint_names:
+- 'FL_calf_joint'
+- 'RL_calf_joint'
+- 'FR_calf_joint'
+- 'RR_calf_joint'
+- 'FL_hip_joint'
+- 'RL_hip_joint'
+- 'FR_hip_joint'
+- 'RR_hip_joint'
+- 'FL_thigh_joint'
+- 'RL_thigh_joint'
+- 'FR_thigh_joint'
+- 'RR_thigh_joint'
+joint_positions:
+- -1.70
+- -1.65
+- -1.70
+- -1.65
+- 0.05
+- 0.05
+- -0.05
+- -0.05
+- 0.80
+- 0.80
+- 0.80
+- 0.80"
+
+rosservice call /gazebo/set_model_configuration "model_name: 'go2'
+urdf_param_name: 'robot_description'
+joint_names:
+- 'FL_calf_joint'
+- 'RL_calf_joint'
+- 'FR_calf_joint'
+- 'RR_calf_joint'
+- 'FL_hip_joint'
+- 'RL_hip_joint'
+- 'FR_hip_joint'
+- 'RR_hip_joint'
+- 'FL_thigh_joint'
+- 'RL_thigh_joint'
+- 'FR_thigh_joint'
+- 'RR_thigh_joint'
+joint_positions:
+- -1.70
+- -1.65
+- -1.70
+- -1.65
+- 0.05
+- 0.05
+- -0.05
+- -0.05
+- 0.80
+- 0.80
+- 0.80
+- 0.80"
+
+
+
+3. Unpause Gazebo
