@@ -4,13 +4,6 @@
 
 #pragma once
 
-// #include <pinocchio/multibody/data.hpp>
-// #include <pinocchio/multibody/model.hpp>
-
-// #include <pinocchio/algorithm/frames.hpp>
-// #include <pinocchio/algorithm/kinematics.hpp>
-// #include <pinocchio/parsers/urdf.hpp>
-
 #include <ocs2_custom_quadruped_interface/CustomQuadrupedInterface.h>
 
 #include <go2_estimators/estimators/InEKF.h>

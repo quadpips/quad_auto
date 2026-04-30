@@ -139,6 +139,7 @@ Then, you can use WASD to translate, Q/E to rotate, and X to send a zero velocit
 - [ ] Add Nav2 demo
 - [ ] Add OCS2 for G1
 - [ ] Handheld controller for sim
+- [ ] Add back READMEs for perception modules
 
 ## Acknowledgements
 

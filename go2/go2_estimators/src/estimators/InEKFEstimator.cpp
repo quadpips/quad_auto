@@ -195,10 +195,9 @@ void InEKFEstimator::correctKinematics()
 
     // Update foot positions with pinocchio
     std::vector<Eigen::Vector3d> footPositions(4);
-    for (size_t i = 0; i < legIndices_.size(); i++) 
+    for (size_t i = 0; i < footPositions.size(); i++) 
     {
       footPositions[i] = legged_interface_->getKinematicModel().positionBaseToFootInBaseFrame(i, qPinocchio);
-    //     footPositions[i] = pinocchio::updateFramePlacement(model_, data_, legIndices_[i]).translation();
     }    
 
     // Retrieve position estimate from InEKF
@@ -215,8 +214,8 @@ void InEKFEstimator::correctKinematics()
 
     // Store predicted foot positions
     go2_estimators::vectorKinematics kinematics;
-    kinematics.reserve(legIndices_.size());
-    for (size_t i = 0; i < legIndices_.size(); i++) 
+    kinematics.reserve(footPositions.size());
+    for (size_t i = 0; i < footPositions.size(); i++) 
     {
         constexpr double foot_noise = 0.01;
         Eigen::Translation3d translation = Eigen::Translation3d(footPositions[i](0),footPositions[i](1), footPositions[i](2));
