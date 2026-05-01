@@ -130,8 +130,8 @@ Then, you can use WASD to translate, Q/E to rotate, and X to send a zero velocit
 
 ## TODOs
 - [x] Install from scratch
+- [x] Sanity check inekf kinematics
 - [ ] Tune for Go2
-- [ ] Sanity check inekf kinematics
 - [ ] Build proxsuite inside pixi
 - [ ] Add ANYmal
 - [ ] Single package for all quadrupeds

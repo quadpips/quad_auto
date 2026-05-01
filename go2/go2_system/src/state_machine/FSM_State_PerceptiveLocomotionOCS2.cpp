@@ -314,7 +314,7 @@ void FSM_State_PerceptiveLocomotionOCS2::run()
     return;
   }
 
-  RCLCPP_INFO_STREAM(node_->get_logger(), "[FSM PERCEPTIVE LOCOMOTION OCS2] run() started \n");
+  // RCLCPP_INFO_STREAM(node_->get_logger(), "[FSM PERCEPTIVE LOCOMOTION OCS2] run() started \n");
 
   // tNow_ = node_->get_clock()->now().seconds() - initTime_;
   // current_observation_.time += this->_data->userParameters->controller_dt;
@@ -341,8 +341,8 @@ void FSM_State_PerceptiveLocomotionOCS2::run()
   // pre-MPC safety check //
   //////////////////////////
 
-  RCLCPP_INFO_STREAM(node_->get_logger(), "   observation:");
-  printObservation(observation);  
+  // RCLCPP_INFO_STREAM(node_->get_logger(), "   observation:");
+  // printObservation(observation);  
 
   // state
   // if (!stateSafetyCheck(observation.state))
@@ -398,14 +398,14 @@ void FSM_State_PerceptiveLocomotionOCS2::run()
   this->_data->_stateEstimator->setContactEstimate(planned_contactState);
   // TODO: analyze PerformanceIndex of MPC
 
-  RCLCPP_INFO_STREAM(node_->get_logger(), "desired:");
-  RCLCPP_INFO_STREAM(node_->get_logger(), "   mode:       " << modeNumber2String(desiredMode));
+  // RCLCPP_INFO_STREAM(node_->get_logger(), "desired:");
+  // RCLCPP_INFO_STREAM(node_->get_logger(), "   mode:       " << modeNumber2String(desiredMode));
 
-  RCLCPP_INFO_STREAM(node_->get_logger(), "   state: ");
-  printState(desiredState);
+  // RCLCPP_INFO_STREAM(node_->get_logger(), "   state: ");
+  // printState(desiredState);
 
-  RCLCPP_INFO_STREAM(node_->get_logger(), "   input: ");
-  printInput(desiredInput);
+  // RCLCPP_INFO_STREAM(node_->get_logger(), "   input: ");
+  // printInput(desiredInput);
 
   //////////////////////////
   // post-MPC safety check //
@@ -456,8 +456,8 @@ void FSM_State_PerceptiveLocomotionOCS2::run()
   // {                 
   //   // RCLCPP_INFO_STREAM(node_->get_logger(), "planned_contactState: " << planned_contactState.transpose());
                      
-  RCLCPP_INFO_STREAM(node_->get_logger(), "   dummy input: ");
-  printInput(dummyInput);
+  // RCLCPP_INFO_STREAM(node_->get_logger(), "   dummy input: ");
+  // printInput(dummyInput);
 
   // RCLCPP_INFO_STREAM(node_->get_logger(), "joint accelerations:");
   // RCLCPP_INFO_STREAM(node_->get_logger(), "    LF_HAA acceleration: " << joint_accelerations[0]);
@@ -493,46 +493,46 @@ void FSM_State_PerceptiveLocomotionOCS2::run()
                                                                   joint_accelerations,
                                                                   flag);
 
-  RCLCPP_INFO_STREAM(node_->get_logger(), "joint commands: ");  
-  for (int i = 0; i < commands.size(); i++)
-  {
+  // RCLCPP_INFO_STREAM(node_->get_logger(), "joint commands: ");  
+  // for (int i = 0; i < commands.size(); i++)
+  // {
  
-    RCLCPP_INFO_STREAM(node_->get_logger(), "joint: " << commands[i].joint_name);
-    RCLCPP_INFO_STREAM(node_->get_logger(), "  desired position: " << commands[i].desired_position);
-    RCLCPP_INFO_STREAM(node_->get_logger(), "  desired velocity: " << commands[i].desired_velocity);
-    RCLCPP_INFO_STREAM(node_->get_logger(), "  kp:               " << commands[i].kp);
-    RCLCPP_INFO_STREAM(node_->get_logger(), "  kd:               " << commands[i].kd);
-    RCLCPP_INFO_STREAM(node_->get_logger(), "  torque_ff:        " << commands[i].torque_ff);
+  //   RCLCPP_INFO_STREAM(node_->get_logger(), "joint: " << commands[i].joint_name);
+  //   RCLCPP_INFO_STREAM(node_->get_logger(), "  desired position: " << commands[i].desired_position);
+  //   RCLCPP_INFO_STREAM(node_->get_logger(), "  desired velocity: " << commands[i].desired_velocity);
+  //   RCLCPP_INFO_STREAM(node_->get_logger(), "  kp:               " << commands[i].kp);
+  //   RCLCPP_INFO_STREAM(node_->get_logger(), "  kd:               " << commands[i].kd);
+  //   RCLCPP_INFO_STREAM(node_->get_logger(), "  torque_ff:        " << commands[i].torque_ff);
 
-    // vector_t jointPositions = observation.state.segment(12,12);
-    // vector_t jointVelocities = observation.input.segment(12,12);
+  //   // vector_t jointPositions = observation.state.segment(12,12);
+  //   // vector_t jointVelocities = observation.input.segment(12,12);
 
-    // float torque = commands[i].torque_ff + commands[i].kp * (commands[i].desired_position - jointPositions[i]) +
-    //                commands[i].kd * (commands[i].desired_velocity - jointVelocities[i]);
+  //   // float torque = commands[i].torque_ff + commands[i].kp * (commands[i].desired_position - jointPositions[i]) +
+  //   //                commands[i].kd * (commands[i].desired_velocity - jointVelocities[i]);
 
-    // if (i == 0 || i == 3 || i == 6 || i == 9)
-    // {
-    //   if (std::abs(torque) > maxTorqueObserved_[0])
-    //   {
-    //     maxTorqueObserved_[0] = std::abs(torque);
-    //     RCLCPP_INFO_STREAM(node_->get_logger(), "New max torque observed for HAA joints: " << maxTorqueObserved_[0]);
-    //   }
-    // } else if (i == 1 || i == 4 || i == 7 || i == 10)
-    // {
-    //   if (std::abs(torque) > maxTorqueObserved_[1])
-    //   {
-    //     maxTorqueObserved_[1] = std::abs(torque);
-    //     RCLCPP_INFO_STREAM(node_->get_logger(), "New max torque observed for HFE joints: " << maxTorqueObserved_[1]);
-    //   }
-    // } else if (i == 2 || i == 5 || i == 8 || i == 11)
-    // {
-    //   if (std::abs(torque) > maxTorqueObserved_[2])
-    //   {
-    //     maxTorqueObserved_[2] = std::abs(torque);
-    //     RCLCPP_INFO_STREAM(node_->get_logger(), "New max torque observed for KFE joints: " << maxTorqueObserved_[2]);
-    //   }
-    // }
-  }
+  //   // if (i == 0 || i == 3 || i == 6 || i == 9)
+  //   // {
+  //   //   if (std::abs(torque) > maxTorqueObserved_[0])
+  //   //   {
+  //   //     maxTorqueObserved_[0] = std::abs(torque);
+  //   //     RCLCPP_INFO_STREAM(node_->get_logger(), "New max torque observed for HAA joints: " << maxTorqueObserved_[0]);
+  //   //   }
+  //   // } else if (i == 1 || i == 4 || i == 7 || i == 10)
+  //   // {
+  //   //   if (std::abs(torque) > maxTorqueObserved_[1])
+  //   //   {
+  //   //     maxTorqueObserved_[1] = std::abs(torque);
+  //   //     RCLCPP_INFO_STREAM(node_->get_logger(), "New max torque observed for HFE joints: " << maxTorqueObserved_[1]);
+  //   //   }
+  //   // } else if (i == 2 || i == 5 || i == 8 || i == 11)
+  //   // {
+  //   //   if (std::abs(torque) > maxTorqueObserved_[2])
+  //   //   {
+  //   //     maxTorqueObserved_[2] = std::abs(torque);
+  //   //     RCLCPP_INFO_STREAM(node_->get_logger(), "New max torque observed for KFE joints: " << maxTorqueObserved_[2]);
+  //   //   }
+  //   // }
+  // }
 
   // Post-WBC safety check 
   if (flag != 0) 
